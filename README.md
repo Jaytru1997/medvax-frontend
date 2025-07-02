@@ -65,7 +65,7 @@ All API requests are made using `axios`. Base URL is stored in `.env`:
 
 VITE\_API\_URL=[https://api.medvax.com/api](https://api.medvax.com/api)
 
-````
+````text
 
 ---
 
