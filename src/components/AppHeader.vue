@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-brightBlue-900 text-dark p-4 shadow">
+  <header class="bg-light-blue-900 text-white p-4 shadow">
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">MedVax</h1>
       <nav>

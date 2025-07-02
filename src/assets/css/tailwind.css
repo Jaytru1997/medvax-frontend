@@ -1,4 +1,160 @@
 /* @import "tailwindcss"; */
 /* @import "tailwindcss/preflight"; */
 /* @tailwind utilities; */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
+
+@source "../../../**/*.{vue,html,js}";
+@source "../../views/**/*.{vue}";
+
+@theme {
+  --color-light-blue-100: #e5f5fa;
+  --color-light-blue-300: #cdecf5;
+  --color-light-blue-500: #9bd9eb;
+  --color-light-blue-700: #38b2d8;
+  --color-light-blue-900: #079fce;
+
+  --color-bright-blue-100: #e1ecff;
+  --color-bright-blue-300: #b4cbf1;
+  --color-bright-blue-500: #87aae2;
+  --color-bright-blue-700: #2e68c5;
+  --color-bright-blue-900: #0147b7;
+
+  --color-dark-blue-100: #98ade3;
+  --color-dark-blue-300: #7d91c3;
+  --color-dark-blue-500: #6274a2;
+  --color-dark-blue-700: #2d3b61;
+  --color-dark-blue-900: #121f41;
+
+  --color-pink-100: #fde9f1;
+  --color-pink-300: #fad2e3;
+  --color-pink-500: #f6a5c7;
+  --color-pink-700: #ed4b90;
+  --color-pink-900: #e81e74;
+
+  --color-light: #ecedf0;
+  --color-dark: #0c0c20;
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --font-inter: "Inter", sans-serif;
+  --font-urbanist: "Urbanist", sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-xs-line: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm-line: 1.25rem;
+  --text-base: 1rem;
+  --text-base-line: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg-line: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl-line: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl-line: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl-line: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl-line: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl-line: 1;
+  --text-6xl: 3.75rem;
+  --text-6xl-line: 1;
+
+  --spacing-72: 18rem;
+  --spacing-84: 21rem;
+  --spacing-96: 24rem;
+
+  --rounded-xl: 1rem;
+  --rounded-2xl: 1.5rem;
+  --rounded-3xl: 2rem;
+
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-deep: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  --breakpoint-xs: 475px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --container-padding: 1rem;
+  --container-padding-sm: 2rem;
+  --container-padding-lg: 4rem;
+  --container-padding-xl: 5rem;
+  --container-padding-2xl: 6rem;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-inter);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl-line);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl-line);
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl-line);
+    font-weight: 600;
+  }
+
+  p {
+    font-size: var(--text-base);
+    line-height: var(--text-base-line);
+  }
+
+  a {
+    color: var(--color-bright-blue-700);
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: var(--color-bright-blue-900);
+  }
+}
+
+@layer components {
+  .bg-gradient-light {
+    background: radial-gradient(
+      circle at top,
+      var(--color-light-blue-100),
+      var(--color-light-blue-300)
+    );
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-deep {
+    box-shadow: var(--shadow-deep);
+  }
+
+  .rounded-xl {
+    border-radius: var(--rounded-xl);
+  }
+
+  .rounded-2xl {
+    border-radius: var(--rounded-2xl);
+  }
+
+  .rounded-3xl {
+    border-radius: var(--rounded-3xl);
+  }
+}
