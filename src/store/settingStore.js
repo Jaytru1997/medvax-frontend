@@ -12,7 +12,7 @@ export const useSettingStore = defineStore("setting", {
     // url for the website (frontend)
     siteUrl: "https://medvaxhealth.com",
     // also set apiUrl in stores for state authentication
-    apiUrl: "https://api.medvaxhealth.com",
+    apiUrl: "https://api.medvaxhealth.com/api",
   }),
   getters: {
     getSiteName: (state) => state.siteName,
