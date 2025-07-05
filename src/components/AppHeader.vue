@@ -26,7 +26,7 @@
       />
 
       <!-- Desktop Navigation -->
-      <nav class="hidden sm:flex gap-2 *:no-underline">
+      <nav class="hidden lg:flex gap-2 *:no-underline items-center">
         <router-link
           v-for="link in navLinks"
           :key="link.to"
@@ -36,6 +36,9 @@
             route.path === link.to
               ? 'text-light-blue-900 font-semibold'
               : 'text-white',
+            link.name === 'Contact Us'
+              ? 'bg-light-blue-900 rounded py-2 px-4'
+              : '',
           ]"
         >
           {{ link.name }}
@@ -43,7 +46,7 @@
       </nav>
 
       <!-- Mobile Menu Button -->
-      <button class="sm:hidden" @click="toggleSidebar">
+      <button class="lg:hidden" @click="toggleSidebar">
         <svg
           width="26"
           height="18"
@@ -66,7 +69,7 @@
   <transition name="fade">
     <div
       v-if="isSidebarOpen"
-      class="fixed inset-0 bg-black/40 z-40 sm:hidden"
+      class="fixed inset-0 bg-black/40 z-40 lg:hidden"
       @click.self="closeSidebar"
     >
       <aside class="bg-dark-blue-900 text-white w-64 h-full p-6 shadow-lg">

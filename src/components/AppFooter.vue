@@ -9,7 +9,7 @@
         <img
           src="../../asset/logo/logo-footer.svg"
           alt="MedVax logo"
-          class="w-24 sm:w-40"
+          class="w-24 lg:w-40"
         />
 
         <!-- Footer Links -->
@@ -20,7 +20,7 @@
             v-for="link in navLinks"
             :key="link.to"
             :to="link.to"
-            class="hover:text-light-blue-900 transition no-underline"
+            class="hover:text-light-blue-900 transition no-underline text-xs lg:text-base"
             :class="
               route.path === link.to
                 ? 'text-dark-blue-900 font-semibold'
@@ -37,13 +37,13 @@
         >
           <router-link
             to="#"
-            class="flex items-center gap-2 text-white hover:text-dark-blue-900 transition no-underline"
+            class="flex items-center gap-0 text-white hover:text-dark-blue-900 transition no-underline text-xs lg:text-base"
             @click.prevent="scrollToTop"
             title="Go to top"
             aria-label="Go to top"
             data-testid="go-to-top"
           >
-            <span>Go To Top</span>
+            <span>Go To Top </span>
             <img
               src="../../asset/icons/arrow-up.svg"
               alt="up arrow icon"
