@@ -25,14 +25,14 @@ const readMore = (blog) => {
 };
 
 const logos = [
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
-  "../../public/asset/images/partner.svg",
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
 ];
 
 // Duplicate the logos for seamless looping
