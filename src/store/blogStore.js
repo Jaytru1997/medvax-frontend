@@ -42,10 +42,7 @@ export const useBlogStore = defineStore("blog", {
               category: "Healthcare Innovation",
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              banner: "../../public/asset/images/team/chioma.png",
               content:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               date: "2024-01-15",
@@ -57,10 +54,7 @@ export const useBlogStore = defineStore("blog", {
               category: "Reproductive Health & Rights",
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              banner: "../../public/asset/images/team/chioma.png",
               content:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               date: "2024-01-10",
@@ -72,10 +66,7 @@ export const useBlogStore = defineStore("blog", {
               category: "MedVax Impact Stories",
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              banner: "../../public/asset/images/team/chioma.png",
               content:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               date: "2024-01-05",
@@ -87,10 +78,7 @@ export const useBlogStore = defineStore("blog", {
               category: "Pharmacy & Medication Access",
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              banner: "../../public/asset/images/team/chioma.png",
               content:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               date: "2024-01-01",
@@ -102,10 +90,7 @@ export const useBlogStore = defineStore("blog", {
               category: "Others",
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              banner: "../../public/asset/images/team/chioma.png",
               content:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               date: "2023-12-28",

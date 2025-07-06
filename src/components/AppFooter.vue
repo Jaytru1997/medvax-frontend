@@ -7,7 +7,7 @@
       >
         <!-- Footer Logo -->
         <img
-          src="../../asset/logo/logo-footer.svg"
+          src="../../public/asset/logo/logo-footer.svg"
           alt="MedVax logo"
           class="w-24 lg:w-40"
         />
@@ -45,7 +45,7 @@
           >
             <span>Go To Top </span>
             <img
-              src="../../asset/icons/arrow-up.svg"
+              src="../../public/asset/icons/arrow-up.svg"
               alt="up arrow icon"
               class="w-8 h-8 bg-dark-blue-900 rounded-full shadow"
             />
@@ -64,7 +64,7 @@
             class="flex items-center gap-1 border-1 border-bright-blue-900 rounded px-2 py-1"
           >
             <img
-              src="../../asset/icons/email.svg"
+              src="../../public/asset/icons/email.svg"
               alt="email icon"
               class="w-5 h-5"
             />
@@ -76,7 +76,7 @@
             class="flex items-center gap-1 border-1 border-bright-blue-900 rounded px-2 py-1"
           >
             <img
-              src="../../asset/icons/phone.svg"
+              src="../../public/asset/icons/phone.svg"
               alt="phone icon"
               class="w-5 h-5"
             />
@@ -88,7 +88,7 @@
             class="flex items-center gap-1 border-1 border-bright-blue-900 rounded px-2 py-1"
           >
             <img
-              src="../../asset/icons/location-pin.svg"
+              src="../../public/asset/icons/location-pin.svg"
               alt="location icon"
               class="w-5 h-5"
             />
@@ -105,7 +105,7 @@
               rel="noopener noreferrer"
             >
               <img
-                src="../../asset/icons/linked-in.svg"
+                src="../../public/asset/icons/linked-in.svg"
                 alt="linkedin icon"
                 class="w-5 h-5"
               />
@@ -116,7 +116,7 @@
               rel="noopener noreferrer"
             >
               <img
-                src="../../asset/icons/x.svg"
+                src="../../public/asset/icons/x.svg"
                 alt="x.com icon"
                 class="w-5 h-5"
               />

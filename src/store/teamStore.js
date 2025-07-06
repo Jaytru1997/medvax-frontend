@@ -38,181 +38,121 @@ export const useTeamStore = defineStore("team", {
             {
               name: "Alice",
               title: "CEO",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Management Team",
             },
             {
               name: "Bob",
               title: "CTO",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Management Team",
             },
             {
               name: "Charlie",
               title: "CFO",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Management Team",
             },
             {
               name: "Diana",
               title: "COO",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Management Team",
             },
             {
               name: "David",
               title: "Senior Consultant",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Consultants",
             },
             {
               name: "Eve",
               title: "Junior Consultant",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Consultants",
             },
             {
               name: "Frank",
               title: "Healthcare Consultant",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Consultants",
             },
             {
               name: "Grace",
               title: "Technology Consultant",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Consultants",
             },
             {
               name: "Hannah",
               title: "Social Media Manager",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Social Media",
             },
             {
               name: "Ian",
               title: "Content Creator",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Social Media",
             },
             {
               name: "Jack",
               title: "Graphic Designer",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Social Media",
             },
             {
               name: "Kathy",
               title: "Community Manager",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Social Media",
             },
             {
               name: "Liam",
               title: "Customer Support Lead",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Customer Support",
             },
             {
               name: "Mia",
               title: "Support Specialist",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Customer Support",
             },
             {
               name: "Noah",
               title: "Technical Support",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Customer Support",
             },
             {
               name: "Olivia",
               title: "Customer Success Manager",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Customer Support",
             },
             {
               name: "Paul",
               title: "Marketing Manager",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Marketing and Communications",
             },
             {
               name: "Quinn",
               title: "PR Specialist",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Marketing and Communications",
             },
             {
               name: "Rita",
               title: "Content Strategist",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Marketing and Communications",
             },
             {
               name: "Sam",
               title: "SEO Expert",
-              image: new URL(
-                "../../asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/team/chioma.png",
               department: "Marketing and Communications",
             },
           ];

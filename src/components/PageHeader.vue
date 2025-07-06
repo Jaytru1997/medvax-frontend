@@ -17,7 +17,7 @@ defineProps({
     class="flex flex-col items-center justify-center gap-8 bg-light-blue-100 my-12 py-12 px-4 max-w-7xl mx-4 xl:mx-auto rounded-lg page-header"
   >
     <img
-      src="../../asset/icons/logo-icon-black.svg"
+      src="../../public/asset/icons/logo-icon-black.svg"
       alt=""
       class="bg-gradient-to-b from-light-blue-500 to-light-blue-300 p-2 rounded-lg w-16 h-16 border-3 border-white"
     />
@@ -36,7 +36,7 @@ defineProps({
 
 <style scoped>
 .page-header {
-  background-image: url(../../asset/icons/header-abstract.svg);
+  background-image: url("../../public/asset/icons/header-abstract.svg");
   background-repeat: no-repeat;
   background-position: top;
   background-size: 30rem;

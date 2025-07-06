@@ -21,7 +21,7 @@ import PageHeader from "@/components/PageHeader.vue";
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-light-blue-100 rounded gap-4"
         >
           <img
-            src="../../asset/images/medtracka-4-her.svg"
+            src="../../public/asset/images/medtracka-4-her.svg"
             alt="MedTracka 4 Her (Her Paddi)"
             class="w-full"
           />
@@ -38,7 +38,7 @@ import PageHeader from "@/components/PageHeader.vue";
         <div
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-light-blue-100 rounded gap-4"
         >
-          <img src="../../asset/images/medtracka.svg" alt="MedTracka" />
+          <img src="../../public/asset/images/medtracka.svg" alt="MedTracka" />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
             MedTracka
           </h3>
@@ -54,7 +54,7 @@ import PageHeader from "@/components/PageHeader.vue";
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-light-blue-100 rounded gap-4"
         >
           <img
-            src="../../asset/images/medvax-pharmacy.svg"
+            src="../../public/asset/images/medvax-pharmacy.svg"
             alt="MedVax Pharmacies"
           />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
@@ -70,7 +70,10 @@ import PageHeader from "@/components/PageHeader.vue";
         <div
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-light-blue-100 rounded gap-4"
         >
-          <img src="../../asset/images/medvax-lab.svg" alt="MedVax Labs" />
+          <img
+            src="../../public/asset/images/medvax-lab.svg"
+            alt="MedVax Labs"
+          />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
             MedVax Labs
           </h3>

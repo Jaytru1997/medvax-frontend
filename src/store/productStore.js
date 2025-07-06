@@ -54,50 +54,36 @@ export const useProductStore = defineStore("product", {
               name: "Pads",
               price: 100,
               category: "Hygiene",
-              image: new URL(
-                "../../asset/images/products/demo/pads.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/products/demo/pads.png",
             },
             {
               id: 2,
               name: "Ibuprofen",
               price: 200,
               category: "Pain Relief",
-              image: new URL(
-                "../../asset/images/products/demo/ibuprofen.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/products/demo/ibuprofen.png",
             },
             {
               id: 3,
               name: "Mosquito Net",
               price: 300,
               category: "Protection",
-              image: new URL(
-                "../../asset/images/products/demo/mosquito-net.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/products/demo/mosquito-net.png",
             },
             {
               id: 4,
               name: "Pregnancy Test Strip",
               price: 150,
               category: "Reproductive Health",
-              image: new URL(
-                "../../asset/images/products/demo/pregnancy-test-strip.png",
-                import.meta.url
-              ).href,
+              image:
+                "../../public/asset/images/products/demo/pregnancy-test-strip.png",
             },
             {
               id: 5,
               name: "Clear Blue",
               price: 250,
               category: "Reproductive Health",
-              image: new URL(
-                "../../asset/images/products/demo/clear-blue.png",
-                import.meta.url
-              ).href,
+              image: "../../public/asset/images/products/demo/clear-blue.png",
             },
           ];
           resolve(this.products);

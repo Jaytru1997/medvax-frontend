@@ -6,7 +6,7 @@
         class="text-xs sm:text-lg font-normal text-center flex items-center gap-1"
       >
         <img
-          src="../../asset/icons/join-movement.svg"
+          src="../../public/asset/icons/join-movement.svg"
           alt="Join the movement icon"
           class="w-5 h-5 sm:w-6 sm:h-6"
         />
@@ -20,7 +20,7 @@
     <div class="container mx-auto flex justify-between items-center">
       <!-- Logo -->
       <img
-        src="../../asset/logo/logo-nav.svg"
+        src="../../public/asset/logo/logo-nav.svg"
         alt="MedVax logo"
         class="w-24 sm:w-40"
       />
@@ -78,7 +78,7 @@
       <aside class="bg-dark-blue-900 text-white w-64 h-full p-6 shadow-lg">
         <div class="flex justify-between items-center mb-6">
           <img
-            src="../../asset/logo/logo-nav.svg"
+            src="../../public/asset/logo/logo-nav.svg"
             alt="MedVax logo"
             class="w-24"
           />

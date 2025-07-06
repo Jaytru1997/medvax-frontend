@@ -25,14 +25,14 @@ const readMore = (blog) => {
 };
 
 const logos = [
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
-  "../../asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
+  "../../public/asset/images/partner.svg",
 ];
 
 // Duplicate the logos for seamless looping
@@ -58,7 +58,7 @@ onMounted(async () => {
     >
       <!-- Hero Image -->
       <img
-        src="../../asset/images/home-header-alt.svg"
+        src="../../public/asset/images/home-header-alt.svg"
         alt="Healthcare personnel with drug bottles in her hands"
         class="w-full h-auto max-w-full flex self-start"
       />
@@ -144,7 +144,7 @@ onMounted(async () => {
             class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
           >
             <img
-              src="../../asset/icons/tech-driven.svg"
+              src="../../public/asset/icons/tech-driven.svg"
               alt="Technology Driven"
               class="w-12 h-12 bg-light-blue-900 p-2 rounded"
             />
@@ -164,7 +164,7 @@ onMounted(async () => {
             class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
           >
             <img
-              src="../../asset/icons/patient-centred.svg"
+              src="../../public/asset/icons/patient-centred.svg'"
               alt="Patient Centred"
               class="w-12 h-12 bg-light-blue-900 p-2 rounded"
             />
@@ -183,7 +183,7 @@ onMounted(async () => {
             class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
           >
             <img
-              src="../../asset/icons/supply.svg"
+              src="../../public/asset/icons/supply.svg"
               alt="Reliable Supply Chain"
               class="w-12 h-12 bg-light-blue-900 p-2 rounded"
             />
@@ -203,7 +203,7 @@ onMounted(async () => {
             class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
           >
             <img
-              src="../../asset/icons/impact-focused.svg"
+              src="../../public/asset/icons/impact-focused.svg"
               alt="Impact Focused"
               class="w-12 h-12 bg-light-blue-900 p-2 rounded"
             />
@@ -234,7 +234,7 @@ onMounted(async () => {
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-pink-100 rounded gap-4"
         >
           <img
-            src="../../asset/images/medtracka-4-her.svg"
+            src="../../public/asset/images/medtracka-4-her.svg"
             alt="MedTracka 4 Her (Her Paddi)"
             class="w-full"
           />
@@ -251,7 +251,7 @@ onMounted(async () => {
         <div
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-pink-100 rounded gap-4"
         >
-          <img src="../../asset/images/medtracka.svg" alt="MedTracka" />
+          <img src="../../public/asset/images/medtracka.svg" alt="MedTracka" />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
             MedTracka
           </h3>
@@ -267,7 +267,7 @@ onMounted(async () => {
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-pink-100 rounded gap-4"
         >
           <img
-            src="../../asset/images/medvax-pharmacy.svg"
+            src="../../public/asset/images/medvax-pharmacy.svg"
             alt="MedVax Pharmacies"
           />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
@@ -283,7 +283,10 @@ onMounted(async () => {
         <div
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-pink-100 rounded gap-4"
         >
-          <img src="../../asset/images/medvax-lab.svg" alt="MedVax Labs" />
+          <img
+            src="../../public/asset/images/medvax-lab.svg"
+            alt="MedVax Labs"
+          />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
             MedVax Labs
           </h3>
@@ -358,7 +361,7 @@ onMounted(async () => {
           class="flex flex-col rounded gap-3 pt-4 items-start bg-light-blue-100"
         >
           <img
-            src="../../asset/icons/double-quotes.svg"
+            src="../../public/asset/icons/double-quotes.svg"
             alt="quotation icon"
             class="ml-4"
           />

@@ -58,7 +58,7 @@ onMounted(async () => {
               class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
             >
               <img
-                src="../../asset/icons/tech-driven.svg"
+                src="../../public/asset/icons/tech-driven.svg"
                 alt="Technology Driven"
                 class="w-12 h-12 bg-light-blue-900 p-2 rounded"
               />
@@ -80,7 +80,7 @@ onMounted(async () => {
               class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
             >
               <img
-                src="../../asset/icons/patient-centred.svg"
+                src="../../public/asset/icons/patient-centred.svg"
                 alt="Patient Centred"
                 class="w-12 h-12 bg-light-blue-900 p-2 rounded"
               />
@@ -102,7 +102,7 @@ onMounted(async () => {
               class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
             >
               <img
-                src="../../asset/icons/supply.svg"
+                src="../../public/asset/icons/supply.svg"
                 alt="Reliable Supply Chain"
                 class="w-12 h-12 bg-light-blue-900 p-2 rounded"
               />
@@ -124,7 +124,7 @@ onMounted(async () => {
               class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
             >
               <img
-                src="../../asset/icons/impact-focused.svg"
+                src="../../public/asset/icons/impact-focused.svg"
                 alt="Impact Focused"
                 class="w-12 h-12 bg-light-blue-900 p-2 rounded"
               />
@@ -201,7 +201,7 @@ onMounted(async () => {
           class="flex flex-col rounded gap-3 pt-4 items-start bg-light-blue-100"
         >
           <img
-            src="../../asset/icons/double-quotes.svg"
+            src="../../public/asset/icons/double-quotes.svg"
             alt="quotation icon"
             class="ml-4"
           />
@@ -230,7 +230,7 @@ onMounted(async () => {
         class="flex flex-col items-center justify-center gap-8 bg-light-blue-100 my-12 pt-12 max-w-7xl mx-4 xl:mx-auto rounded-lg team-header"
       >
         <img
-          src="../../asset/icons/logo-icon-black.svg"
+          src="../../public/asset/icons/logo-icon-black.svg"
           alt=""
           class="bg-gradient-to-b from-light-blue-500 to-light-blue-300 p-2 rounded-lg w-16 h-16 border-3 border-white"
         />
@@ -335,7 +335,7 @@ onMounted(async () => {
 }
 
 .team-header {
-  background-image: url(../../asset/icons/header-abstract.svg);
+  background-image: url(../../public/asset/icons/header-abstract.svg);
   background-repeat: no-repeat;
   background-position: top;
   background-size: 30rem;

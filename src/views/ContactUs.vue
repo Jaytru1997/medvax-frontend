@@ -29,7 +29,7 @@ const handleSubmit = () => {
         class="flex flex-col items-center justify-center gap-8 bg-light-blue-100 my-12 pt-12 rounded-lg contact-header w-full xl:max-w-7xl"
       >
         <img
-          src="../../asset/icons/logo-icon-black.svg"
+          src="../../public/asset/icons/logo-icon-black.svg"
           alt=""
           class="bg-gradient-to-b from-light-blue-500 to-light-blue-300 p-2 rounded-lg w-16 h-16 border-3 border-white"
         />
@@ -52,7 +52,7 @@ const handleSubmit = () => {
             class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
-              src="../../asset/icons/email-faded.svg"
+              src="../../public/asset/icons/email-faded.svg"
               alt="email icon"
               class="w-5 h-5"
             />
@@ -63,7 +63,7 @@ const handleSubmit = () => {
             class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
-              src="../../asset/icons/phone-faded.svg"
+              src="../../public/asset/icons/phone-faded.svg"
               alt="phone icon"
               class="w-5 h-5"
             />
@@ -74,7 +74,7 @@ const handleSubmit = () => {
             class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
-              src="../../asset/icons/location-pin-faded.svg"
+              src="../../public/asset/icons/location-pin-faded.svg"
               alt="location icon"
               class="w-5 h-5"
             />
@@ -148,7 +148,7 @@ const handleSubmit = () => {
         </form>
         <div class="flex flex-col w-full">
           <img
-            src="../../asset/images/map.svg"
+            src="../../public/asset/images/map.svg"
             alt="Map"
             class="w-full xl:w-5/6 h-auto rounded-lg flex self-end"
           />
@@ -162,7 +162,7 @@ const handleSubmit = () => {
               rel="noopener noreferrer"
             >
               <img
-                src="../../asset/icons/linked-in-dark.svg"
+                src="../../public/asset/icons/linked-in-dark.svg"
                 alt="linkedin icon"
                 class="w-5 h-5"
               />
@@ -173,7 +173,7 @@ const handleSubmit = () => {
               rel="noopener noreferrer"
             >
               <img
-                src="../../asset/icons/x-dark.svg"
+                src="../../public/asset/icons/x-dark.svg"
                 alt="x.com icon"
                 class="w-5 h-5"
               />
@@ -209,7 +209,7 @@ const handleSubmit = () => {
 
 <style scoped>
 .contact-header {
-  background-image: url(../../asset/icons/header-abstract.svg);
+  background-image: url("../../public/asset/icons/header-abstract.svg");
   background-repeat: no-repeat;
   background-position: top;
   background-size: 30rem;
