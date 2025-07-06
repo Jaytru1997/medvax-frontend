@@ -468,12 +468,4 @@ const teams = ref([
   background-position: top;
   background-size: 30rem;
 }
-
-.cta-container {
-  background-image: url("../../asset/icons/abstract-design.svg"),
-    url("../../asset/icons/logo-icon-faded.svg");
-  background-repeat: no-repeat;
-  background-size: 3.5rem 3.5rem;
-  background-position: top left, bottom right;
-}
 </style>

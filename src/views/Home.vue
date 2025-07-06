@@ -453,7 +453,7 @@ const duplicatedLogos = [...logos, ...logos, ...logos];
       class="flex flex-col items-center justify-center gap-8 sm:gap-12 py-12"
     >
       <h2
-        class="text-2xl md:text-3xl lg:text-4xl xl:text-5x font-black text-center"
+        class="text-2xl md:text-3xl lg:text-4xl xl:text-5x text-dark-blue-900 font-black text-center"
       >
         Our Partners
       </h2>
@@ -523,13 +523,5 @@ const duplicatedLogos = [...logos, ...logos, ...logos];
 .slider-track {
   width: max-content;
   animation: scroll 40s linear infinite;
-}
-
-.cta-container {
-  background-image: url("../../asset/icons/abstract-design.svg"),
-    url("../../asset/icons/logo-icon-faded.svg");
-  background-repeat: no-repeat;
-  background-size: 3.5rem 3.5rem;
-  background-position: top left, bottom right;
 }
 </style>
