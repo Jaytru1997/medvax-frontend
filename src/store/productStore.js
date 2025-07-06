@@ -83,7 +83,10 @@ export const useProductStore = defineStore("product", {
               name: "Clear Blue",
               price: 250,
               category: "Reproductive Health",
-              image: "../../public/asset/images/products/demo/clear-blue.png",
+              image: new URL(
+                "../../public/asset/images/products/demo/clear-blue.png",
+                import.meta.url
+              ).href,
             },
           ];
           resolve(this.products);
