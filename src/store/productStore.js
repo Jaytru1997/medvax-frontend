@@ -54,29 +54,40 @@ export const useProductStore = defineStore("product", {
               name: "Pads",
               price: 100,
               category: "Hygiene",
-              image: "../../public/asset/images/products/demo/pads.png",
+              image: new URL(
+                "../../public/asset/images/products/demo/pads.png",
+                import.meta.url
+              ).href,
             },
             {
               id: 2,
               name: "Ibuprofen",
               price: 200,
               category: "Pain Relief",
-              image: "../../public/asset/images/products/demo/ibuprofen.png",
+              image: new URL(
+                "../../public/asset/images/products/demo/ibuprofen.png",
+                import.meta.url
+              ).href,
             },
             {
               id: 3,
               name: "Mosquito Net",
               price: 300,
               category: "Protection",
-              image: "../../public/asset/images/products/demo/mosquito-net.png",
+              image: new URL(
+                "../../public/asset/images/products/demo/mosquito-net.png",
+                import.meta.url
+              ).href,
             },
             {
               id: 4,
               name: "Pregnancy Test Strip",
               price: 150,
               category: "Reproductive Health",
-              image:
+              image: new URL(
                 "../../public/asset/images/products/demo/pregnancy-test-strip.png",
+                import.meta.url
+              ).href,
             },
             {
               id: 5,
