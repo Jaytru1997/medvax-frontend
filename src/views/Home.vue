@@ -1,17 +1,53 @@
 <script setup>
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useBlogStore } from "@/store/blogStore";
+
+// Initialize router and blog store
+const router = useRouter();
+const blogStore = useBlogStore();
+
+// Reactive state
+const isLoading = ref(true);
+
+// Computed properties
+const recentBlogs = computed(() => {
+  const allBlogs = blogStore.getBlogs;
+  // Sort by date (most recent first) and take the first 3
+  return allBlogs
+    .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+    .slice(0, 3);
+});
+
+// Methods
+const readMore = (blog) => {
+  router.push(`/blog/${blog.id}`);
+};
+
 const logos = [
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
-  new URL("../../asset/images/partner.svg", import.meta.url).href,
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
+  "../../asset/images/partner.svg",
 ];
 
 // Duplicate the logos for seamless looping
 const duplicatedLogos = [...logos, ...logos, ...logos];
+
+// Fetch blogs when component mounts
+onMounted(async () => {
+  try {
+    await blogStore.fetchBlogs();
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+  } finally {
+    isLoading.value = false;
+  }
+});
 </script>
 
 <template>
@@ -361,90 +397,55 @@ const duplicatedLogos = [...logos, ...logos, ...logos];
         healthcare technology, pharmaceutical care, and reproductive health.
       </p>
 
+      <!-- Loading State -->
+      <div v-if="isLoading" class="text-center py-8">
+        <div
+          class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-light-blue-900"
+        ></div>
+        <p class="text-gray-500 mt-4">Loading recent blog posts...</p>
+      </div>
+
       <!-- Blog Items -->
       <div
+        v-else
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center justify-center w-full max-w-7xl mx-auto px-4 gap-4"
       >
-        <!-- Blog 1 -->
         <div
-          class="flex flex-col rounded gap-3 p-4 items-center bg-light-blue-100 border-1 border-bright-blue-300"
+          v-for="blog in recentBlogs"
+          :key="blog.id"
+          class="flex flex-col rounded gap-3 p-4 items-center bg-light-blue-100 border-1 border-bright-blue-300 hover:shadow-md transition-shadow"
         >
           <img
-            src="../../asset/images/home-header.svg"
-            alt="MedVax Pharmacies"
+            :src="blog.banner"
+            :alt="blog.title"
+            class="w-full h-32 object-cover rounded"
           />
           <h3 class="text-lg font-medium text-dark w-full line-clamp-1">
-            MedVax Pharmacies
+            {{ blog.title }}
           </h3>
           <p class="text-xs text-left line-clamp-1 w-full -mt-3 mb-4">
-            Healthcare Innovation
+            {{ blog.category }}
           </p>
 
-          <p class="text-sm text-left line-clamp-1 w-full">
-            A chain of tech-enabled community pharmacies integrating digital
-            health services & fast medication delivery.
+          <p class="text-sm text-left line-clamp-2 w-full">
+            {{ blog.excerpt }}
           </p>
 
           <button
-            class="bg-bright-blue-900 w-full text-center text-white font-normal text-xs py-2 rounded mb-4"
+            @click="readMore(blog)"
+            class="bg-bright-blue-900 w-full text-center text-white font-normal text-xs py-2 rounded mb-4 hover:bg-bright-blue-800 transition-colors"
           >
             Read More
           </button>
         </div>
+      </div>
 
-        <!-- Blog 2 -->
-        <div
-          class="flex flex-col rounded gap-3 p-4 items-center bg-light-blue-100 border-1 border-bright-blue-300"
-        >
-          <img
-            src="../../asset/images/home-header.svg"
-            alt="MedVax Pharmacies"
-          />
-          <h3 class="text-lg font-medium text-dark w-full line-clamp-1">
-            MedVax Pharmacies
-          </h3>
-          <p class="text-xs text-left line-clamp-1 w-full -mt-3 mb-4">
-            Healthcare Innovation
-          </p>
-
-          <p class="text-sm text-left line-clamp-1 w-full">
-            A chain of tech-enabled community pharmacies integrating digital
-            health services & fast medication delivery.
-          </p>
-
-          <button
-            class="bg-bright-blue-900 w-full text-center text-white font-normal text-xs py-2 rounded mb-4"
-          >
-            Read More
-          </button>
-        </div>
-
-        <!-- Blog 3 -->
-        <div
-          class="flex flex-col rounded gap-3 p-4 items-center bg-light-blue-100 border-1 border-bright-blue-300"
-        >
-          <img
-            src="../../asset/images/home-header.svg"
-            alt="MedVax Pharmacies"
-          />
-          <h3 class="text-lg font-medium text-dark w-full line-clamp-1">
-            MedVax Pharmacies
-          </h3>
-          <p class="text-xs text-left line-clamp-1 w-full -mt-3 mb-4">
-            Healthcare Innovation
-          </p>
-
-          <p class="text-sm text-left line-clamp-1 w-full">
-            A chain of tech-enabled community pharmacies integrating digital
-            health services & fast medication delivery.
-          </p>
-
-          <button
-            class="bg-bright-blue-900 w-full text-center text-white font-normal text-xs py-2 rounded mb-4"
-          >
-            Read More
-          </button>
-        </div>
+      <!-- Empty State -->
+      <div
+        v-if="!isLoading && recentBlogs.length === 0"
+        class="text-center py-8"
+      >
+        <p class="text-gray-500">No blog posts available at the moment.</p>
       </div>
     </div>
 

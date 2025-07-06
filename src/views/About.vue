@@ -1,159 +1,31 @@
 <script setup>
 import PageHeader from "@/components/PageHeader.vue";
-import { ref } from "vue";
-// define teams and team members should hav name, job title, and image
-const selectedTeam = ref("Management Team"); // Default team selection
+import { ref, onMounted, computed } from "vue";
+import { useTeamStore } from "@/store/teamStore";
+
+// Initialize the team store
+const teamStore = useTeamStore();
+
+// Default team selection
+const selectedTeam = ref("Management Team");
+
+// Computed properties to get teams and members from the store
+const teams = computed(() => {
+  const departments = teamStore.getTeamDepartments;
+  return departments.map((dept) => ({
+    name: dept,
+    members: teamStore.getTeamMembersByDepartment(dept),
+  }));
+});
+
 const selectTeam = (teamName) => {
-  // Logic to handle team selection can be added here
   selectedTeam.value = teamName;
 };
-const teams = ref([
-  {
-    name: "Management Team",
-    members: [
-      {
-        name: "Alice",
-        title: "CEO",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Bob",
-        title: "CTO",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Charlie",
-        title: "CFO",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Diana",
-        title: "COO",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Consultants",
-    members: [
-      {
-        name: "David",
-        title: "Senior Consultant",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Eve",
-        title: "Junior Consultant",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Frank",
-        title: "Healthcare Consultant",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Grace",
-        title: "Technology Consultant",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Social Media",
-    members: [
-      {
-        name: "Hannah",
-        title: "Social Media Manager",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Ian",
-        title: "Content Creator",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Jack",
-        title: "Graphic Designer",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Kathy",
-        title: "Community Manager",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Customer Support",
-    members: [
-      {
-        name: "Liam",
-        title: "Customer Support Lead",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Mia",
-        title: "Support Specialist",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Noah",
-        title: "Technical Support",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Olivia",
-        title: "Customer Success Manager",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Marketing and Communications",
-    members: [
-      {
-        name: "Paul",
-        title: "Marketing Manager",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Quinn",
-        title: "PR Specialist",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Rita",
-        title: "Content Strategist",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        name: "Sam",
-        title: "SEO Expert",
-        image: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-]);
+
+// Fetch team members when component mounts
+onMounted(async () => {
+  await teamStore.fetchTeamMembers();
+});
 </script>
 <template>
   <div class="min-h-screen text-dark font-inter">
@@ -370,8 +242,8 @@ const teams = ref([
         >
           Our team combines a decade of experience in Healthcare (Pharmaceutical
           care), Technology, and Logistics to drive growth in emerging markets.
-          “At MedVax Health, we are committed to leveraging technology in
-          bridging health equity gaps in Africa.” <br />
+          "At MedVax Health, we are committed to leveraging technology in
+          bridging health equity gaps in Africa." <br />
           - Chioma Uzoma
         </p>
         <div

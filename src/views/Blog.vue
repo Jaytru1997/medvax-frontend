@@ -1,127 +1,49 @@
 <script setup>
 // import PageHeader from "@/components/PageHeader.vue";
-import { ref } from "vue";
-// define teams and team members should hav name, job title, and image
-const selectedCategory = ref("All"); // Default team selection
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useBlogStore } from "@/store/blogStore";
+
+// Initialize the blog store and router
+const blogStore = useBlogStore();
+const router = useRouter();
+
+// Default category selection
+const selectedCategory = ref("All");
+
+// Computed properties to get categories and blogs from the store
+const blogCategories = computed(() => {
+  const categories = blogStore.getBlogCategories;
+  const allBlogs = blogStore.getBlogs;
+
+  // Create the "All" category with all blogs
+  const allCategory = {
+    name: "All",
+    blog: allBlogs,
+  };
+
+  // Create category objects with their respective blogs
+  const categoryObjects = categories.map((category) => ({
+    name: category,
+    blog: blogStore.getBlogsByCategory(category),
+  }));
+
+  // Return "All" category first, then other categories
+  return [allCategory, ...categoryObjects];
+});
+
 const selectCategory = (category) => {
-  // Logic to handle team selection can be added here
   selectedCategory.value = category;
 };
-const blogCategories = ref([
-  {
-    name: "All",
-    blog: [
-      {
-        title: "The Role of AI in Medication Access",
-        category: "Healthcare Innovation",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        title:
-          "Breaking Barriers: Reproductive Health Solutions for Rural Communities ",
-        category: "Reproductive Health & Rights",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        title:
-          "They transformed my health journey. Now, I can get my medications on time without stress.",
-        category: "MedVax Impact Stories",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        title:
-          "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-        category: "Pharmacy & Medication Access",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-      {
-        title:
-          "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-        category: "Others",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Healthcare Innovation",
-    blog: [
-      {
-        title: "Innovations in Healthcare",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Reproductive Health & Rights",
-    blog: [
-      {
-        title:
-          "Breaking Barriers: Reproductive Health Solutions for Rural Communities ",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "MedVax Impact Stories",
-    blog: [
-      {
-        title:
-          "They transformed my health journey. Now, I can get my medications on time without stress.",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Pharmacy & Medication Access",
-    blog: [
-      {
-        title:
-          "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-  {
-    name: "Others",
-    blog: [
-      {
-        title:
-          "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-        excerpt:
-          "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-        banner: new URL("../../asset/images/team/chioma.png", import.meta.url)
-          .href,
-      },
-    ],
-  },
-]);
+
+const readMore = (blog) => {
+  router.push(`/blog/${blog.id}`);
+};
+
+// Fetch blogs when component mounts
+onMounted(async () => {
+  await blogStore.fetchBlogs();
+});
 </script>
 <template>
   <div class="min-h-screen text-dark font-inter">
@@ -142,7 +64,7 @@ const blogCategories = ref([
           class="text-xs sm:text-base text-center font-normal font-urbanist px-4 sm:px-0 w-5/6"
         >
           Stay updated with the latest in healthcare technology, pharmaceutical
-          care, reproductive health, and MedVax Health’s impact in Africa.
+          care, reproductive health, and MedVax Health's impact in Africa.
         </p>
         <div
           class="bg-dark-blue-900 flex flex-wrap items-center justify-center py-4 gap-4 *:text-white w-full rounded-b-lg text--xs"
@@ -196,7 +118,8 @@ const blogCategories = ref([
               </p>
             </div>
             <button
-              class="bg-light-blue-500 text-dark py-2 px-4 rounded text-wrap"
+              @click="readMore(blog)"
+              class="bg-light-blue-500 text-dark py-2 px-4 rounded text-wrap hover:bg-light-blue-600 transition-colors"
             >
               Read More
             </button>

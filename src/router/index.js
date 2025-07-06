@@ -19,6 +19,11 @@ const routes = [
   },
   { path: "/blog", name: "Blog", component: () => import("../views/Blog.vue") },
   {
+    path: "/blog/:id",
+    name: "SingleBlog",
+    component: () => import("../views/SingleBlog.vue"),
+  },
+  {
     path: "/contact-us",
     name: "Contact Us",
     component: () => import("../views/ContactUs.vue"),

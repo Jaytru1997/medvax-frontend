@@ -25,7 +25,7 @@
     <transition name="fade">
       <div
         v-if="isOpen"
-        class="fixed inset-0 z-50 bg-white text-darkBlue-900 flex flex-col"
+        class="fixed inset-0 z-52 bg-white text-darkBlue-900 flex flex-col"
       >
         <!-- Header -->
         <div
