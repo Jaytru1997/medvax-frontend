@@ -21,7 +21,9 @@ defineProps({
       alt=""
       class="bg-gradient-to-b from-light-blue-500 to-light-blue-300 p-2 rounded-lg w-16 h-16 border-3 border-white"
     />
-    <h2 class="my-4 text-2xl sm:text-4xl font-semibold font-urbanist">
+    <h2
+      class="my-4 text-2xl sm:text-4xl font-semibold font-urbanist text-center"
+    >
       {{ title }}
     </h2>
     <p

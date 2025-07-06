@@ -39,6 +39,9 @@
             link.name === 'Contact Us'
               ? 'bg-light-blue-900 rounded py-2 px-4'
               : '',
+            link.name === 'Contact Us' && route.path === '/contact-us'
+              ? 'text-white'
+              : 'text-light-blue-900',
           ]"
         >
           {{ link.name }}
@@ -109,6 +112,9 @@
               link.name === 'Contact Us'
                 ? 'bg-light-blue-900 rounded py-2 px-4'
                 : '',
+              link.name === 'Contact Us' && route.path === '/contact-us'
+                ? 'text-white'
+                : 'text-light-blue-900',
             ]"
             @click="closeSidebar"
           >
