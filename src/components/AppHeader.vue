@@ -102,11 +102,14 @@
             :key="link.to"
             :to="link.to"
             class="hover:text-light-blue-900 transition no-underline"
-            :class="
+            :class="[
               route.path === link.to
                 ? 'text-light-blue-900 font-semibold'
-                : 'text-white'
-            "
+                : 'text-white',
+              link.name === 'Contact Us'
+                ? 'bg-light-blue-900 rounded py-2 px-4'
+                : '',
+            ]"
             @click="closeSidebar"
           >
             {{ link.name }}

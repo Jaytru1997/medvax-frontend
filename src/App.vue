@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen flex flex-col bg-bright-blue-100 text-dark font-inter"
-  >
+  <div class="min-h-screen flex flex-col">
     <AppHeader />
 
     <main class="flex-1">

@@ -11,7 +11,7 @@ const logos = [
 ];
 
 // Duplicate the logos for seamless looping
-const duplicatedLogos = [...logos, ...logos];
+const duplicatedLogos = [...logos, ...logos, ...logos];
 </script>
 
 <template>
