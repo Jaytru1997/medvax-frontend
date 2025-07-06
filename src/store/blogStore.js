@@ -43,7 +43,7 @@ export const useBlogStore = defineStore("blog", {
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               banner: new URL(
-                "../../../public/asset/images/team/chioma.png",
+                "../../public/asset/images/team/chioma.png",
                 import.meta.url
               ).href,
               content:
@@ -58,7 +58,7 @@ export const useBlogStore = defineStore("blog", {
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               banner: new URL(
-                "../../../public/asset/images/team/chioma.png",
+                "../../public/asset/images/team/chioma.png",
                 import.meta.url
               ).href,
               content:
@@ -73,7 +73,7 @@ export const useBlogStore = defineStore("blog", {
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               banner: new URL(
-                "../../../public/asset/images/team/chioma.png",
+                "../../public/asset/images/team/chioma.png",
                 import.meta.url
               ).href,
               content:
@@ -88,7 +88,7 @@ export const useBlogStore = defineStore("blog", {
               excerpt:
                 "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
               banner: new URL(
-                "../../../public/asset/images/team/chioma.png",
+                "../../public/asset/images/team/chioma.png",
                 import.meta.url
               ).href,
               content:
