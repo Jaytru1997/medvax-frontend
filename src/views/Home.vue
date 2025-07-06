@@ -164,7 +164,7 @@ onMounted(async () => {
             class="text-lg font-semibold text-dark-blue-900 flex items-center gap-2"
           >
             <img
-              src="../../public/asset/icons/patient-centred.svg'"
+              src="../../public/asset/icons/patient-centred.svg"
               alt="Patient Centred"
               class="w-12 h-12 bg-light-blue-900 p-2 rounded"
             />
