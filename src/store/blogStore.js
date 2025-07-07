@@ -1,13 +1,20 @@
 // Blog Store
 import { defineStore, acceptHMRUpdate } from "pinia";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useBlogStore = defineStore("blog", {
   state: () => ({
-    // set global variables for frontend
     blogs: [],
+    isLoading: false,
+    error: null,
   }),
+
   getters: {
     getBlogs: (state) => state.blogs,
-    getBlogById: (state) => (id) => state.blogs.find((blog) => blog.id === id),
+    getBlogById: (state) => (id) =>
+      state.blogs.find((blog) => blog._id === id || blog.id === id),
     getBlogByTitle: (state) => (title) =>
       state.blogs.find(
         (blog) => blog.title.toLowerCase() === title.toLowerCase()
@@ -29,94 +36,147 @@ export const useBlogStore = defineStore("blog", {
           blog.category.toLowerCase() === category.toLowerCase()
       );
     },
+    getIsLoading: (state) => state.isLoading,
+    getError: (state) => state.error,
   },
+
   actions: {
-    fetchBlogs() {
-      // Simulate an API call to fetch blogs
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          this.blogs = [
-            {
-              id: 1,
-              title: "The Role of AI in Medication Access",
-              category: "Healthcare Innovation",
-              excerpt:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              content:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              date: "2024-01-15",
+    // Fetch all blog posts
+    async fetchBlogs(language = "en") {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.get(`${API_URL}/api/blog`, {
+          params: { lang: language },
+        });
+
+        this.blogs = response.data;
+        return this.blogs;
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        this.error = error.response?.data?.message || "Failed to fetch blogs";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Fetch a single blog post by ID
+    async fetchBlogById(id) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.get(`${API_URL}/api/blog/${id}`);
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching blog:", error);
+        this.error = error.response?.data?.message || "Failed to fetch blog";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Create a new blog post
+    async createBlog(blogData, token) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.post(`${API_URL}/api/blog`, blogData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Add the new blog to the state
+        this.blogs.unshift(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error creating blog:", error);
+        this.error = error.response?.data?.message || "Failed to create blog";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Update a blog post
+    async updateBlog(id, blogData, token) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.put(
+          `${API_URL}/api/blog/${id}`,
+          blogData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
-            {
-              id: 2,
-              title:
-                "Breaking Barriers: Reproductive Health Solutions for Rural Communities ",
-              category: "Reproductive Health & Rights",
-              excerpt:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              content:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              date: "2024-01-10",
-            },
-            {
-              id: 3,
-              title:
-                "They transformed my health journey. Now, I can get my medications on time without stress.",
-              category: "MedVax Impact Stories",
-              excerpt:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              content:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              date: "2024-01-05",
-            },
-            {
-              id: 4,
-              title:
-                "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-              category: "Pharmacy & Medication Access",
-              excerpt:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              content:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              date: "2024-01-01",
-            },
-            {
-              id: 5,
-              title:
-                "Why Tech-Enabled Pharmacies Are the Future of Healthcare in Africa",
-              category: "Others",
-              excerpt:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              banner: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              content:
-                "Lorem ipsum dolor sit amet consectetur. Commodo faucibus vitae amet orci in eu. In dolor dolor elementum vitae ut eget. Justo faucibus feugiat pretium nulla cursus volutpat dignissim. Id sed sit.",
-              date: "2023-12-28",
-            },
-          ];
-          resolve(this.blogs);
-        }, 1000);
-      });
+          }
+        );
+
+        // Update the blog in the state
+        const index = this.blogs.findIndex(
+          (blog) => blog._id === id || blog.id === id
+        );
+        if (index !== -1) {
+          this.blogs[index] = response.data;
+        }
+
+        return response.data;
+      } catch (error) {
+        console.error("Error updating blog:", error);
+        this.error = error.response?.data?.message || "Failed to update blog";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Delete a blog post
+    async deleteBlog(id, token) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        await axios.delete(`${API_URL}/api/blog/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Remove the blog from the state
+        this.blogs = this.blogs.filter(
+          (blog) => blog._id !== id && blog.id !== id
+        );
+        return true;
+      } catch (error) {
+        console.error("Error deleting blog:", error);
+        this.error = error.response?.data?.message || "Failed to delete blog";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Clear error
+    clearError() {
+      this.error = null;
+    },
+
+    // Clear blogs
+    clearBlogs() {
+      this.blogs = [];
     },
   },
 });
+
 // Hot Module Replacement (HMR) for the blog store
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useBlogStore, import.meta.hot));

@@ -11,9 +11,10 @@ const blogStore = useBlogStore();
 // Reactive state
 const isLoading = ref(true);
 const blog = ref(null);
+const error = ref(null);
 
 // Computed properties
-const blogId = computed(() => parseInt(route.params.id));
+const blogId = computed(() => route.params.id);
 
 // Methods
 const goBack = () => {
@@ -31,8 +32,16 @@ const formatDate = (date) => {
 // Fetch blog data when component mounts
 onMounted(async () => {
   try {
-    await blogStore.fetchBlogs();
-    const foundBlog = blogStore.getBlogById(blogId.value);
+    isLoading.value = true;
+    error.value = null;
+
+    // Try to get blog from store first
+    let foundBlog = blogStore.getBlogById(blogId.value);
+
+    // If not in store, fetch from API
+    if (!foundBlog) {
+      foundBlog = await blogStore.fetchBlogById(blogId.value);
+    }
 
     if (foundBlog) {
       blog.value = foundBlog;
@@ -40,8 +49,9 @@ onMounted(async () => {
       // Blog not found, redirect to blog list
       router.push("/blog");
     }
-  } catch (error) {
-    console.error("Error fetching blog:", error);
+  } catch (err) {
+    console.error("Error fetching blog:", err);
+    error.value = err.response?.data?.message || "Failed to load blog post";
   } finally {
     isLoading.value = false;
   }
@@ -57,6 +67,42 @@ onMounted(async () => {
           class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-light-blue-900"
         ></div>
         <p class="text-gray-500 mt-4">Loading blog post...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div
+      v-else-if="error"
+      class="flex items-center justify-center min-h-screen"
+    >
+      <div class="text-center">
+        <div
+          class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3"
+        >
+          <svg
+            class="w-6 h-6 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+            />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          Error Loading Blog Post
+        </h2>
+        <p class="text-gray-600 mb-6">{{ error }}</p>
+        <button
+          @click="goBack"
+          class="bg-light-blue-600 text-white px-6 py-2 rounded-lg hover:bg-light-blue-700 transition-colors"
+        >
+          Back to Blog
+        </button>
       </div>
     </div>
 
@@ -103,7 +149,9 @@ onMounted(async () => {
 
         <!-- Meta Information -->
         <div class="flex items-center gap-4 text-sm text-gray-600 mb-6">
-          <span>{{ formatDate(blog.date || new Date()) }}</span>
+          <span>{{
+            formatDate(blog.createdAt || blog.date || new Date())
+          }}</span>
           <span>•</span>
           <span>5 min read</span>
         </div>
@@ -115,6 +163,7 @@ onMounted(async () => {
           :src="blog.banner"
           :alt="blog.title"
           class="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg"
+          @error="$event.target.src = '/asset/images/team/chioma.png'"
         />
       </div>
 
@@ -122,6 +171,7 @@ onMounted(async () => {
       <div class="prose prose-lg max-w-none">
         <!-- Excerpt -->
         <div
+          v-if="blog.excerpt"
           class="mb-8 p-6 bg-gray-50 rounded-xl border-l-4 border-light-blue-500"
         >
           <p class="text-lg text-gray-700 italic">
@@ -180,20 +230,25 @@ onMounted(async () => {
       </div>
 
       <!-- Related Articles -->
-      <div class="mt-12 pt-8 border-t border-gray-200">
+      <div
+        v-if="blogStore.getBlogsByCategory(blog.category).length > 1"
+        class="mt-12 pt-8 border-t border-gray-200"
+      >
         <h3 class="text-2xl font-bold text-gray-900 mb-6">Related Articles</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div
             v-for="relatedBlog in blogStore
               .getBlogsByCategory(blog.category)
+              .filter((b) => b._id !== blog._id && b.id !== blog.id)
               .slice(0, 2)"
-            :key="relatedBlog.id"
+            :key="relatedBlog._id || relatedBlog.id"
             class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 border border-gray-100"
           >
             <img
               :src="relatedBlog.banner"
               :alt="relatedBlog.title"
               class="w-full h-32 object-cover rounded-lg mb-3"
+              @error="$event.target.src = '/asset/images/team/chioma.png'"
             />
             <h4 class="font-semibold text-gray-900 mb-2 line-clamp-2">
               {{ relatedBlog.title }}

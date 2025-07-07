@@ -3,6 +3,7 @@ import { useSettingStore } from "@/store/settingStore";
 const settingStore = useSettingStore();
 
 import { ref } from "vue";
+import { useBookingStore } from "@/store/bookingStore";
 const formData = ref({
   name: "",
   email: "",
@@ -10,15 +11,65 @@ const formData = ref({
   message: "",
 });
 const handleSubmit = () => {
-  // Here you would typically send the form data to your backend
-  console.log("Form submitted:", formData.value);
-  // Reset the form after submission
+  // Build mailto link
+  const to = settingStore.siteEmail;
+  const subject = encodeURIComponent(
+    `Contact Form Submission from ${formData.value.name}`
+  );
+  const body = encodeURIComponent(
+    `Name: ${formData.value.name}\nEmail: ${formData.value.email}\nPhone: ${formData.value.phone}\n\nMessage:\n${formData.value.message}`
+  );
+  const mailtoLink = `mailto:${to}?subject=${subject}&body=${body}`;
+  window.open(mailtoLink, "_blank");
+  // Optionally reset the form after opening mail client
   formData.value = {
     name: "",
     email: "",
     phone: "",
     message: "",
   };
+};
+
+// Book Consultation Modal State
+const bookingStore = useBookingStore();
+const showBookingModal = ref(false);
+const bookingForm = ref({
+  name: "",
+  email: "",
+  phone: "",
+  slotId: "",
+});
+
+const openBookingModal = async () => {
+  showBookingModal.value = true;
+  bookingStore.clearBookingStatus();
+  bookingForm.value = { name: "", email: "", phone: "", slotId: "" };
+  try {
+    await bookingStore.fetchSlots();
+  } catch (e) {}
+};
+const closeBookingModal = () => {
+  showBookingModal.value = false;
+  bookingStore.clearBookingStatus();
+};
+const submitBooking = async () => {
+  if (
+    !bookingForm.value.name ||
+    !bookingForm.value.email ||
+    !bookingForm.value.phone ||
+    !bookingForm.value.slotId
+  ) {
+    alert("Please fill in all fields and select a slot.");
+    return;
+  }
+  try {
+    await bookingStore.bookAppointment({
+      slotId: bookingForm.value.slotId,
+      name: bookingForm.value.name,
+      email: bookingForm.value.email,
+      phone: bookingForm.value.phone,
+    });
+  } catch (e) {}
 };
 </script>
 <template>
@@ -200,9 +251,147 @@ const handleSubmit = () => {
       </div>
       <button
         class="bg-light-blue-900 text-dark font-semibold text-xs py-2 px-4 lg:w-1/6 rounded"
+        @click="openBookingModal"
       >
         Book Consultation
       </button>
+    </div>
+
+    <!-- Book Consultation Modal -->
+    <div
+      v-if="showBookingModal"
+      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      @click.self="closeBookingModal"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-deep w-full max-w-md max-h-[90vh] overflow-y-auto"
+      >
+        <div
+          class="bg-gradient-to-r from-light-blue-500 to-light-blue-700 text-white p-6 flex items-center justify-between"
+        >
+          <h2 class="text-xl font-bold">Book Consultation</h2>
+          <button
+            @click="closeBookingModal"
+            class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="p-6">
+          <form @submit.prevent="submitBooking" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Full Name *</label
+              >
+              <input
+                v-model="bookingForm.name"
+                type="text"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-light-blue-500 focus:border-transparent"
+                placeholder="Your Name"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Email *</label
+              >
+              <input
+                v-model="bookingForm.email"
+                type="email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-light-blue-500 focus:border-transparent"
+                placeholder="your@email.com"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Phone Number *</label
+              >
+              <input
+                v-model="bookingForm.phone"
+                type="tel"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-light-blue-500 focus:border-transparent"
+                placeholder="+234 123 456 7890"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Select Slot *</label
+              >
+              <select
+                v-model="bookingForm.slotId"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-light-blue-500 focus:border-transparent"
+              >
+                <option value="" disabled>Select a slot</option>
+                <option
+                  v-for="slot in bookingStore.getSlots"
+                  :key="slot.id || slot._id"
+                  :value="slot.id || slot._id"
+                >
+                  {{
+                    slot.time ||
+                    slot.label ||
+                    slot.startTime ||
+                    slot.date ||
+                    slot.name ||
+                    slot.id
+                  }}
+                </option>
+              </select>
+            </div>
+            <div
+              v-if="bookingStore.getBookingError"
+              class="bg-red-50 border border-red-200 rounded-lg p-3"
+            >
+              <p class="text-red-600 text-sm">
+                {{ bookingStore.getBookingError }}
+              </p>
+            </div>
+            <div
+              v-if="bookingStore.getBookingSuccess"
+              class="bg-green-50 border border-green-200 rounded-lg p-3"
+            >
+              <p class="text-green-700 text-sm">
+                Appointment booked successfully! Check your email for
+                confirmation.
+              </p>
+            </div>
+            <div class="flex gap-3 pt-4">
+              <button
+                type="button"
+                @click="closeBookingModal"
+                class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                :disabled="
+                  bookingStore.getIsLoading || bookingStore.getBookingSuccess
+                "
+                class="flex-1 px-4 py-3 bg-gradient-to-r from-light-blue-500 to-light-blue-700 text-white rounded-lg hover:from-light-blue-700 hover:to-light-blue-800 transition-colors disabled:opacity-50"
+              >
+                <span v-if="bookingStore.getIsLoading">Booking...</span>
+                <span v-else>Book Now</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -5,14 +5,12 @@ export const useSettingStore = defineStore("setting", {
     // set global variables for frontend
     siteName: "Medvax Health",
     siteAddress: "Benin City, Nigeria",
-    sitePhone: "+234 (912) 973 - 8935",
+    sitePhone: "+234 912 973 8935",
     siteEmail: "info@medvaxhealth.com",
     siteCurrency: "NGN",
     siteCurrencySymbol: "₦", // $ £ ₦ €
     // url for the website (frontend)
     siteUrl: "https://medvaxhealth.com",
-    // also set apiUrl in stores for state authentication
-    apiUrl: "https://api.medvaxhealth.com/api",
   }),
   getters: {
     getSiteName: (state) => state.siteName,
@@ -22,7 +20,6 @@ export const useSettingStore = defineStore("setting", {
     getSiteCurrency: (state) => state.siteCurrency,
     getSiteCurrencySymbol: (state) => state.siteCurrencySymbol,
     getSiteUrl: (state) => state.siteUrl,
-    getApiUrl: (state) => state.apiUrl,
   },
   actions: {},
 });

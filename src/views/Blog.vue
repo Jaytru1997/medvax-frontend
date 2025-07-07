@@ -32,17 +32,25 @@ const blogCategories = computed(() => {
   return [allCategory, ...categoryObjects];
 });
 
+// Computed properties for loading and error states
+const isLoading = computed(() => blogStore.getIsLoading);
+const error = computed(() => blogStore.getError);
+
 const selectCategory = (category) => {
   selectedCategory.value = category;
 };
 
 const readMore = (blog) => {
-  router.push(`/blog/${blog.id}`);
+  router.push(`/blog/${blog._id || blog.id}`);
 };
 
 // Fetch blogs when component mounts
 onMounted(async () => {
-  await blogStore.fetchBlogs();
+  try {
+    await blogStore.fetchBlogs();
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+  }
 });
 </script>
 <template>
@@ -85,15 +93,59 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- Our Team Of Experts  -->
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <div
+            class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-light-blue-900 mb-3"
+          ></div>
+          <p class="text-gray-500">Loading blog posts...</p>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <div
+            class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3"
+          >
+            <svg
+              class="w-6 h-6 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
+          </div>
+          <p class="text-gray-600 mb-4">{{ error }}</p>
+          <button
+            @click="blogStore.fetchBlogs()"
+            class="px-4 py-2 bg-light-blue-600 text-white rounded-lg hover:bg-light-blue-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+
+      <!-- Blog Posts -->
       <div
+        v-else-if="
+          blogCategories.find((cat) => cat.name === selectedCategory)?.blog
+            ?.length > 0
+        "
         class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 items-center justify-center w-full xl:max-w-7xl xl:mx-auto *:even:rounded-tr"
       >
         <div
           v-for="blog in blogCategories.find(
             (category) => category.name === selectedCategory
           )?.blog || []"
-          :key="blog.title"
+          :key="blog._id || blog.id"
           class="flex flex-col items-start justify-center bg-light-blue-300 p-4 sm:p-8 gap-8"
           :title="blog.title"
         >
@@ -103,8 +155,9 @@ onMounted(async () => {
           </p>
           <img
             :src="blog.banner"
-            alt="Blog Image"
+            :alt="blog.title"
             class="w-3/4 h-[200px] object-cover rounded flex self-end"
+            @error="$event.target.src = '/asset/images/team/chioma.png'"
           />
           <div
             class="flex flex-col sm:flex-row sm:items-center justify-between w-full"
@@ -124,6 +177,32 @@ onMounted(async () => {
               Read More
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <div
+            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3"
+          >
+            <svg
+              class="w-6 h-6 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+              />
+            </svg>
+          </div>
+          <p class="text-gray-600 mb-4">
+            No blog posts found in this category.
+          </p>
         </div>
       </div>
     </div>

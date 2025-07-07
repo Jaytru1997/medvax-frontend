@@ -1,12 +1,20 @@
 // Team Store
 import { defineStore, acceptHMRUpdate } from "pinia";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const useTeamStore = defineStore("team", {
   state: () => ({
     teamMembers: [],
+    isLoading: false,
+    error: null,
   }),
+
   getters: {
     getTeamMembers: (state) => state.teamMembers,
+    getIsLoading: (state) => state.isLoading,
+    getError: (state) => state.error,
     getTeamMemberById: (state) => (id) =>
       state.teamMembers.find((member) => member.id === id),
     getTeamMemberCount: (state) => state.teamMembers.length,
@@ -29,203 +37,114 @@ export const useTeamStore = defineStore("team", {
       );
     },
   },
-  actions: {
-    fetchTeamMembers() {
-      // Simulate an API call to fetch team members
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          this.teamMembers = [
-            {
-              name: "Alice",
-              title: "CEO",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Management Team",
-            },
-            {
-              name: "Bob",
-              title: "CTO",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Management Team",
-            },
-            {
-              name: "Charlie",
-              title: "CFO",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Management Team",
-            },
-            {
-              name: "Diana",
-              title: "COO",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Management Team",
-            },
-            {
-              name: "David",
-              title: "Senior Consultant",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Consultants",
-            },
-            {
-              name: "Eve",
-              title: "Junior Consultant",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Consultants",
-            },
-            {
-              name: "Frank",
-              title: "Healthcare Consultant",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Consultants",
-            },
-            {
-              name: "Grace",
-              title: "Technology Consultant",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Consultants",
-            },
-            {
-              name: "Hannah",
-              title: "Social Media Manager",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Social Media",
-            },
-            {
-              name: "Ian",
-              title: "Content Creator",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Social Media",
-            },
-            {
-              name: "Jack",
-              title: "Graphic Designer",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Social Media",
-            },
-            {
-              name: "Kathy",
-              title: "Community Manager",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Social Media",
-            },
-            {
-              name: "Liam",
-              title: "Customer Support Lead",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Customer Support",
-            },
-            {
-              name: "Mia",
-              title: "Support Specialist",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Customer Support",
-            },
-            {
-              name: "Noah",
-              title: "Technical Support",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Customer Support",
-            },
-            {
-              name: "Olivia",
-              title: "Customer Success Manager",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Customer Support",
-            },
-            {
-              name: "Paul",
-              title: "Marketing Manager",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Marketing and Communications",
-            },
-            {
-              name: "Quinn",
-              title: "PR Specialist",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Marketing and Communications",
-            },
-            {
-              name: "Rita",
-              title: "Content Strategist",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Marketing and Communications",
-            },
-            {
-              name: "Sam",
-              title: "SEO Expert",
-              image: new URL(
-                "../../public/asset/images/team/chioma.png",
-                import.meta.url
-              ).href,
-              department: "Marketing and Communications",
-            },
-          ];
-          resolve(this.teamMembers);
-        }, 1000);
-      });
-    },
-    // deleteTeamMember(id) {
 
-    // },
-    // addTeamMember(){}
+  actions: {
+    // Fetch all team members
+    async fetchTeamMembers() {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.get(`${API_URL}/api/team`);
+        this.teamMembers = response.data;
+      } catch (error) {
+        console.error("Error fetching team members:", error);
+        this.error =
+          error.response?.data?.message || "Failed to fetch team members";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Add new team member
+    async addTeamMember(memberData) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.post(`${API_URL}/api/team`, memberData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        });
+
+        // Add to local state
+        this.teamMembers.push(response.data);
+      } catch (error) {
+        console.error("Error adding team member:", error);
+        this.error =
+          error.response?.data?.message || "Failed to add team member";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Update team member
+    async updateTeamMember(id, memberData) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        const response = await axios.put(
+          `${API_URL}/api/team/${id}`,
+          memberData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+            },
+          }
+        );
+
+        // Update in local state
+        const index = this.teamMembers.findIndex((member) => member.id === id);
+        if (index !== -1) {
+          this.teamMembers[index] = response.data;
+        }
+      } catch (error) {
+        console.error("Error updating team member:", error);
+        this.error =
+          error.response?.data?.message || "Failed to update team member";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Delete team member
+    async deleteTeamMember(id) {
+      try {
+        this.isLoading = true;
+        this.error = null;
+
+        await axios.delete(`${API_URL}/api/team/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        });
+
+        // Remove from local state
+        this.teamMembers = this.teamMembers.filter(
+          (member) => member.id !== id
+        );
+      } catch (error) {
+        console.error("Error deleting team member:", error);
+        this.error =
+          error.response?.data?.message || "Failed to delete team member";
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    // Clear error
+    clearError() {
+      this.error = null;
+    },
   },
 });
+
 // Hot Module Replacement (HMR) for the team store
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useTeamStore, import.meta.hot));
