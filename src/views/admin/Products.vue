@@ -139,7 +139,6 @@ onMounted(async () => {
             >
               ← Back to Dashboard
             </button>
-            <h1 class="text-2xl font-bold text-gray-900">Product Management</h1>
           </div>
           <button
             @click="openAddModal"

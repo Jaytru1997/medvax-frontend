@@ -63,15 +63,16 @@ export const useAuthStore = defineStore("auth", {
           credentials
         );
 
-        const { token, user } = response.data;
+        const { token, data } = response.data;
 
         // Store token and user data
         this.token = token;
-        this.user = user;
+        this.user = data;
         this.isAuthenticated = true;
 
-        // Save token to localStorage
+        // Save token and user to localStorage
         localStorage.setItem("auth_token", token);
+        localStorage.setItem("auth_user", JSON.stringify(data));
 
         // Set default auth header for future requests
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -104,6 +105,7 @@ export const useAuthStore = defineStore("auth", {
         this.token = null;
         this.isAuthenticated = false;
         localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_user");
         delete axios.defaults.headers.common["Authorization"];
       }
     },
@@ -111,11 +113,12 @@ export const useAuthStore = defineStore("auth", {
     // Initialize auth state from localStorage
     initializeAuth() {
       const token = localStorage.getItem("auth_token");
-      if (token) {
+      const user = localStorage.getItem("auth_user");
+      if (token && user) {
         this.token = token;
+        this.user = JSON.parse(user);
         this.isAuthenticated = true;
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
         // You might want to validate the token with the backend here
         // For now, we'll assume the token is valid
       }

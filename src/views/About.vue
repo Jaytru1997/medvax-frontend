@@ -7,7 +7,7 @@ import { useTeamStore } from "@/store/teamStore";
 const teamStore = useTeamStore();
 
 // Default team selection
-const selectedTeam = ref("Management Team");
+const selectedTeam = ref("Management");
 
 // Computed properties to get teams and members from the store
 const teams = computed(() => {
@@ -285,7 +285,7 @@ onMounted(async () => {
             <h3 class="text-lg font-semibold text-dark-blue-900">
               {{ member.name }}
             </h3>
-            <p class="text-sm font-semibold text-dark">{{ member.title }}</p>
+            <p class="text-sm font-semibold text-dark">{{ member.position }}</p>
           </div>
         </div>
       </div>

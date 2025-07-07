@@ -20,10 +20,13 @@ const blogForm = ref({
   excerpt: "",
   content: "",
   category: "",
-  banner: "",
+  banner: null,
   author: "",
   status: "draft",
 });
+
+// Rich text editor state
+const isContentFocused = ref(false);
 
 const categories = [
   "Healthcare Technology",
@@ -47,7 +50,7 @@ const resetForm = () => {
     excerpt: "",
     content: "",
     category: "",
-    banner: "",
+    banner: null,
     author: "",
     status: "draft",
   };
@@ -66,11 +69,15 @@ const openEditModal = (blog) => {
     excerpt: blog.excerpt,
     content: blog.content,
     category: blog.category,
-    banner: blog.banner,
+    banner: null,
     author: blog.author,
     status: blog.status || "draft",
   };
   showEditModal.value = true;
+  // Set content in rich text editor after modal is shown
+  setTimeout(() => {
+    setContent(blog.content || "");
+  }, 100);
 };
 
 const openDeleteModal = (blog) => {
@@ -84,11 +91,50 @@ const closeModals = () => {
   showDeleteModal.value = false;
   selectedBlog.value = null;
   resetForm();
+  // Clear rich text editor
+  setContent("");
+};
+
+// Rich text editor functions
+const formatText = (command, value = null) => {
+  document.execCommand(command, false, value);
+};
+
+const getContent = () => {
+  const contentDiv = document.getElementById("content-editor");
+  return contentDiv ? contentDiv.innerHTML : "";
+};
+
+const setContent = (content) => {
+  const contentDiv = document.getElementById("content-editor");
+  if (contentDiv) {
+    contentDiv.innerHTML = content;
+  }
+};
+
+const handleBannerUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    blogForm.value.banner = file;
+  }
 };
 
 const handleAddBlog = async () => {
   try {
-    await blogStore.addBlog(blogForm.value);
+    // Get content from rich text editor
+    blogForm.value.content = getContent();
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    for (const key in blogForm.value) {
+      if (key === "banner" && blogForm.value.banner) {
+        formData.append("banner", blogForm.value.banner);
+      } else if (key !== "banner") {
+        formData.append(key, blogForm.value[key]);
+      }
+    }
+
+    await blogStore.createBlog(formData, authStore.getToken);
     closeModals();
   } catch (error) {
     console.error("Error adding blog:", error);
@@ -97,7 +143,24 @@ const handleAddBlog = async () => {
 
 const handleEditBlog = async () => {
   try {
-    await blogStore.updateBlog(selectedBlog.value.id, blogForm.value);
+    // Get content from rich text editor
+    blogForm.value.content = getContent();
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    for (const key in blogForm.value) {
+      if (key === "banner" && blogForm.value.banner) {
+        formData.append("banner", blogForm.value.banner);
+      } else if (key !== "banner") {
+        formData.append(key, blogForm.value[key]);
+      }
+    }
+
+    await blogStore.updateBlog(
+      selectedBlog.value._id || selectedBlog.value.id,
+      formData,
+      authStore.getToken
+    );
     closeModals();
   } catch (error) {
     console.error("Error updating blog:", error);
@@ -106,7 +169,10 @@ const handleEditBlog = async () => {
 
 const handleDeleteBlog = async () => {
   try {
-    await blogStore.deleteBlog(selectedBlog.value.id);
+    await blogStore.deleteBlog(
+      selectedBlog.value._id || selectedBlog.value.id,
+      authStore.getToken
+    );
     closeModals();
   } catch (error) {
     console.error("Error deleting blog:", error);
@@ -231,7 +297,7 @@ onMounted(async () => {
     <!-- Add Blog Modal -->
     <div
       v-if="showAddModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeModals"
     >
       <div
@@ -265,12 +331,86 @@ onMounted(async () => {
             <label class="block text-sm font-medium text-gray-700"
               >Content</label
             >
-            <textarea
-              v-model="blogForm.content"
-              rows="8"
-              required
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            ></textarea>
+            <!-- Rich Text Toolbar -->
+            <div
+              class="mt-1 mb-2 flex flex-wrap gap-1 p-2 bg-gray-50 border border-gray-300 rounded-t-md"
+            >
+              <button
+                type="button"
+                @click="formatText('bold')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Bold"
+              >
+                B
+              </button>
+              <button
+                type="button"
+                @click="formatText('italic')"
+                class="p-2 text-sm italic hover:bg-gray-200 rounded"
+                title="Italic"
+              >
+                I
+              </button>
+              <button
+                type="button"
+                @click="formatText('underline')"
+                class="p-2 text-sm underline hover:bg-gray-200 rounded"
+                title="Underline"
+              >
+                U
+              </button>
+              <div class="w-px h-6 bg-gray-300 mx-1"></div>
+              <button
+                type="button"
+                @click="formatText('insertUnorderedList')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Bullet List"
+              >
+                •
+              </button>
+              <button
+                type="button"
+                @click="formatText('insertOrderedList')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Numbered List"
+              >
+                1.
+              </button>
+              <div class="w-px h-6 bg-gray-300 mx-1"></div>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<h2>')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Heading 2"
+              >
+                H2
+              </button>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<h3>')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Heading 3"
+              >
+                H3
+              </button>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<p>')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Paragraph"
+              >
+                P
+              </button>
+            </div>
+            <!-- Rich Text Editor -->
+            <div
+              id="content-editor"
+              class="min-h-[200px] max-h-[400px] overflow-y-auto border border-gray-300 rounded-b-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              contenteditable="true"
+              @focus="isContentFocused = true"
+              @blur="isContentFocused = false"
+              placeholder="Start writing your blog content here..."
+            ></div>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -313,13 +453,24 @@ onMounted(async () => {
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700"
-              >Banner Image URL</label
+              >Banner Image</label
             >
             <input
-              v-model="blogForm.banner"
-              type="url"
+              type="file"
+              accept="image/*"
+              @change="handleBannerUpload"
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
+            <div v-if="blogForm.banner" class="mt-2">
+              <img
+                :src="URL.createObjectURL(blogForm.banner)"
+                alt="Banner preview"
+                class="w-32 h-20 object-cover rounded border"
+              />
+              <p class="text-xs text-gray-500 mt-1">
+                {{ blogForm.banner.name }}
+              </p>
+            </div>
           </div>
           <div class="flex justify-end space-x-3 pt-4">
             <button
@@ -344,7 +495,7 @@ onMounted(async () => {
     <!-- Edit Blog Modal -->
     <div
       v-if="showEditModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeModals"
     >
       <div
@@ -378,12 +529,86 @@ onMounted(async () => {
             <label class="block text-sm font-medium text-gray-700"
               >Content</label
             >
-            <textarea
-              v-model="blogForm.content"
-              rows="8"
-              required
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            ></textarea>
+            <!-- Rich Text Toolbar -->
+            <div
+              class="mt-1 mb-2 flex flex-wrap gap-1 p-2 bg-gray-50 border border-gray-300 rounded-t-md"
+            >
+              <button
+                type="button"
+                @click="formatText('bold')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Bold"
+              >
+                B
+              </button>
+              <button
+                type="button"
+                @click="formatText('italic')"
+                class="p-2 text-sm italic hover:bg-gray-200 rounded"
+                title="Italic"
+              >
+                I
+              </button>
+              <button
+                type="button"
+                @click="formatText('underline')"
+                class="p-2 text-sm underline hover:bg-gray-200 rounded"
+                title="Underline"
+              >
+                U
+              </button>
+              <div class="w-px h-6 bg-gray-300 mx-1"></div>
+              <button
+                type="button"
+                @click="formatText('insertUnorderedList')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Bullet List"
+              >
+                •
+              </button>
+              <button
+                type="button"
+                @click="formatText('insertOrderedList')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Numbered List"
+              >
+                1.
+              </button>
+              <div class="w-px h-6 bg-gray-300 mx-1"></div>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<h2>')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Heading 2"
+              >
+                H2
+              </button>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<h3>')"
+                class="p-2 text-sm font-bold hover:bg-gray-200 rounded"
+                title="Heading 3"
+              >
+                H3
+              </button>
+              <button
+                type="button"
+                @click="formatText('formatBlock', '<p>')"
+                class="p-2 text-sm hover:bg-gray-200 rounded"
+                title="Paragraph"
+              >
+                P
+              </button>
+            </div>
+            <!-- Rich Text Editor -->
+            <div
+              id="content-editor"
+              class="min-h-[200px] max-h-[400px] overflow-y-auto border border-gray-300 rounded-b-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              contenteditable="true"
+              @focus="isContentFocused = true"
+              @blur="isContentFocused = false"
+              placeholder="Start writing your blog content here..."
+            ></div>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -426,13 +651,24 @@ onMounted(async () => {
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700"
-              >Banner Image URL</label
+              >Banner Image</label
             >
             <input
-              v-model="blogForm.banner"
-              type="url"
+              type="file"
+              accept="image/*"
+              @change="handleBannerUpload"
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
+            <div v-if="blogForm.banner" class="mt-2">
+              <img
+                :src="URL.createObjectURL(blogForm.banner)"
+                alt="Banner preview"
+                class="w-32 h-20 object-cover rounded border"
+              />
+              <p class="text-xs text-gray-500 mt-1">
+                {{ blogForm.banner.name }}
+              </p>
+            </div>
           </div>
           <div class="flex justify-end space-x-3 pt-4">
             <button
@@ -494,6 +730,7 @@ onMounted(async () => {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -501,6 +738,7 @@ onMounted(async () => {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

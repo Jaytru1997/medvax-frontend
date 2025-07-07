@@ -63,7 +63,7 @@ export const useProductStore = defineStore("product", {
         this.error = null;
 
         const response = await axios.get(`${API_URL}/api/medications`);
-        this.products = response.data;
+        this.products = response.data.data || response.data;
         return this.products;
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -75,14 +75,14 @@ export const useProductStore = defineStore("product", {
       }
     },
 
-    // Fetch a single product by ID
+    // Get a single product by ID
     async fetchProductById(id) {
       try {
         this.isLoading = true;
         this.error = null;
 
         const response = await axios.get(`${API_URL}/api/medications/${id}`);
-        return response.data;
+        return response.data.data || response.data;
       } catch (error) {
         console.error("Error fetching product:", error);
         this.error = error.response?.data?.message || "Failed to fetch product";
@@ -110,8 +110,9 @@ export const useProductStore = defineStore("product", {
         );
 
         // Add the new product to the state
-        this.products.unshift(response.data);
-        return response.data;
+        const newProduct = response.data.data || response.data;
+        this.products.unshift(newProduct);
+        return newProduct;
       } catch (error) {
         console.error("Error adding product:", error);
         this.error = error.response?.data?.message || "Failed to add product";
@@ -139,14 +140,15 @@ export const useProductStore = defineStore("product", {
         );
 
         // Update the product in the state
+        const updatedProduct = response.data.data || response.data;
         const index = this.products.findIndex(
           (product) => product._id === id || product.id === id
         );
         if (index !== -1) {
-          this.products[index] = response.data;
+          this.products[index] = updatedProduct;
         }
 
-        return response.data;
+        return updatedProduct;
       } catch (error) {
         console.error("Error updating product:", error);
         this.error =

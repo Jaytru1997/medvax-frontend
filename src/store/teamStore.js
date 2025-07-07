@@ -45,8 +45,8 @@ export const useTeamStore = defineStore("team", {
         this.isLoading = true;
         this.error = null;
 
-        const response = await axios.get(`${API_URL}/api/team`);
-        this.teamMembers = response.data;
+        const response = await axios.get(`${API_URL}/api/team-members`);
+        this.teamMembers = response.data.data || response.data;
       } catch (error) {
         console.error("Error fetching team members:", error);
         this.error =
@@ -63,14 +63,22 @@ export const useTeamStore = defineStore("team", {
         this.isLoading = true;
         this.error = null;
 
-        const response = await axios.post(`${API_URL}/api/team`, memberData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-          },
-        });
+        const response = await axios.post(
+          `${API_URL}/api/team-members`,
+          memberData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+              ...(memberData instanceof FormData
+                ? { "Content-Type": "multipart/form-data" }
+                : {}),
+            },
+          }
+        );
 
         // Add to local state
-        this.teamMembers.push(response.data);
+        const newMember = response.data.data || response.data;
+        this.teamMembers.push(newMember);
       } catch (error) {
         console.error("Error adding team member:", error);
         this.error =
@@ -88,19 +96,25 @@ export const useTeamStore = defineStore("team", {
         this.error = null;
 
         const response = await axios.put(
-          `${API_URL}/api/team/${id}`,
+          `${API_URL}/api/team-members/${id}`,
           memberData,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+              ...(memberData instanceof FormData
+                ? { "Content-Type": "multipart/form-data" }
+                : {}),
             },
           }
         );
 
         // Update in local state
-        const index = this.teamMembers.findIndex((member) => member.id === id);
+        const updatedMember = response.data.data || response.data;
+        const index = this.teamMembers.findIndex(
+          (member) => member._id === id || member.id === id
+        );
         if (index !== -1) {
-          this.teamMembers[index] = response.data;
+          this.teamMembers[index] = updatedMember;
         }
       } catch (error) {
         console.error("Error updating team member:", error);
@@ -118,7 +132,7 @@ export const useTeamStore = defineStore("team", {
         this.isLoading = true;
         this.error = null;
 
-        await axios.delete(`${API_URL}/api/team/${id}`, {
+        await axios.delete(`${API_URL}/api/team-members/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
           },
@@ -126,7 +140,7 @@ export const useTeamStore = defineStore("team", {
 
         // Remove from local state
         this.teamMembers = this.teamMembers.filter(
-          (member) => member.id !== id
+          (member) => member._id !== id && member.id !== id
         );
       } catch (error) {
         console.error("Error deleting team member:", error);

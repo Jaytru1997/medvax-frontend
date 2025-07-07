@@ -2,9 +2,17 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/authStore";
+import { useTeamStore } from "@/store/teamStore";
+import { useProductStore } from "@/store/productStore";
+import { useBlogStore } from "@/store/blogStore";
+import { useBookingStore } from "@/store/bookingStore";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const teamStore = useTeamStore();
+const productStore = useProductStore();
+const blogStore = useBlogStore();
+const bookingStore = useBookingStore();
 
 // Dashboard stats
 const stats = ref({
@@ -58,11 +66,37 @@ const handleLogout = async () => {
   router.push("/login");
 };
 
-onMounted(() => {
+const loadDashboardData = async () => {
+  try {
+    // Fetch all data in parallel
+    await Promise.all([
+      teamStore.fetchTeamMembers(),
+      productStore.fetchProducts(),
+      blogStore.fetchBlogs(),
+      bookingStore.fetchBookings(),
+    ]);
+
+    // Update stats
+    stats.value = {
+      totalProducts: productStore.getProducts.length,
+      totalBookings: bookingStore.getBookings.length,
+      totalTeamMembers: teamStore.getTeamMembers.length,
+      totalBlogPosts: blogStore.getBlogs.length,
+    };
+  } catch (error) {
+    console.error("Error loading dashboard data:", error);
+  }
+};
+
+onMounted(async () => {
   // Check if user is admin
   if (!authStore.isAdmin) {
     router.push("/login");
+    return;
   }
+
+  // Load dashboard data
+  await loadDashboardData();
 });
 </script>
 
@@ -72,17 +106,7 @@ onMounted(() => {
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-6">
-          <div class="flex items-center">
-            <img
-              class="h-8 w-auto"
-              src="../../../public/asset/logo/logo.svg"
-              alt="MedVax Health"
-            />
-            <h1 class="ml-4 text-2xl font-bold text-gray-900">
-              Admin Dashboard
-            </h1>
-          </div>
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center justify-between w-full">
             <span class="text-sm text-gray-700">
               Welcome, {{ authStore.getUser?.name || "Admin" }}
             </span>

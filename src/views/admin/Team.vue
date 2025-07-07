@@ -18,8 +18,9 @@ const selectedMember = ref(null);
 const memberForm = ref({
   name: "",
   position: "",
+  department: "",
   bio: "",
-  image: "",
+  image: null,
   email: "",
   phone: "",
   linkedin: "",
@@ -27,25 +28,38 @@ const memberForm = ref({
 });
 
 const positions = [
-  "CEO",
-  "CTO",
-  "COO",
-  "Medical Director",
+  "Chief Executive Officer",
+  "Chief Technology Officer",
+  "Chief Operations Officer",
+  "Medical Doctor",
   "Pharmacist",
   "Software Engineer",
   "Data Scientist",
   "Marketing Manager",
   "Operations Manager",
   "Customer Support",
+  "Social Media Manager",
+  "Graphics Designer",
   "Other",
+];
+
+const departments = [
+  "Management",
+  "Consultants",
+  "Social Media",
+  "Operations",
+  "Marketing and Communications",
+  "Customer Support",
+  "IT",
 ];
 
 const resetForm = () => {
   memberForm.value = {
     name: "",
     position: "",
+    department: "",
     bio: "",
-    image: "",
+    image: null,
     email: "",
     phone: "",
     linkedin: "",
@@ -63,8 +77,9 @@ const openEditModal = (member) => {
   memberForm.value = {
     name: member.name,
     position: member.position,
+    department: member.department || "",
     bio: member.bio,
-    image: member.image,
+    image: null,
     email: member.email,
     phone: member.phone,
     linkedin: member.linkedin,
@@ -88,7 +103,15 @@ const closeModals = () => {
 
 const handleAddMember = async () => {
   try {
-    await teamStore.addTeamMember(memberForm.value);
+    const formData = new FormData();
+    for (const key in memberForm.value) {
+      if (key === "image" && memberForm.value.image) {
+        formData.append("image", memberForm.value.image);
+      } else if (key !== "image") {
+        formData.append(key, memberForm.value[key]);
+      }
+    }
+    await teamStore.addTeamMember(formData);
     closeModals();
   } catch (error) {
     console.error("Error adding team member:", error);
@@ -97,7 +120,15 @@ const handleAddMember = async () => {
 
 const handleEditMember = async () => {
   try {
-    await teamStore.updateTeamMember(selectedMember.value.id, memberForm.value);
+    const formData = new FormData();
+    for (const key in memberForm.value) {
+      if (key === "image" && memberForm.value.image) {
+        formData.append("image", memberForm.value.image);
+      } else if (key !== "image") {
+        formData.append(key, memberForm.value[key]);
+      }
+    }
+    await teamStore.updateTeamMember(selectedMember.value.id, formData);
     closeModals();
   } catch (error) {
     console.error("Error updating team member:", error);
@@ -142,7 +173,6 @@ onMounted(async () => {
             >
               ← Back to Dashboard
             </button>
-            <h1 class="text-2xl font-bold text-gray-900">Team Management</h1>
           </div>
           <button
             @click="openAddModal"
@@ -164,6 +194,16 @@ onMounted(async () => {
         <p class="text-gray-500 mt-4">Loading team members...</p>
       </div>
 
+      <div v-else-if="teamStore.getError" class="text-center py-8">
+        <p class="text-red-500">{{ teamStore.getError }}</p>
+        <button
+          @click="teamStore.fetchTeamMembers()"
+          class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Retry
+        </button>
+      </div>
+
       <div
         v-else-if="teamStore.getTeamMembers.length === 0"
         class="text-center py-8"
@@ -174,14 +214,15 @@ onMounted(async () => {
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="member in teamStore.getTeamMembers"
-          :key="member.id"
+          :key="member._id || member.id"
           class="bg-white rounded-lg shadow-md overflow-hidden"
         >
           <div class="relative">
             <img
-              :src="member.image || '/public/asset/images/team/chioma.png'"
+              :src="member.image || '/asset/images/team/chioma.png'"
               :alt="member.name"
               class="w-full h-48 object-cover"
+              @error="$event.target.src = '/asset/images/team/chioma.png'"
             />
             <div class="absolute top-2 right-2 flex space-x-1">
               <button
@@ -226,7 +267,10 @@ onMounted(async () => {
             <h3 class="text-lg font-semibold text-gray-900 mb-1">
               {{ member.name }}
             </h3>
-            <p class="text-sm text-blue-600 mb-3">{{ member.position }}</p>
+            <p class="text-sm text-blue-600 mb-2">{{ member.position }}</p>
+            <p v-if="member.department" class="text-xs text-gray-500 mb-3">
+              {{ member.department }}
+            </p>
             <p class="text-sm text-gray-600 mb-4 line-clamp-3">
               {{ member.bio }}
             </p>
@@ -280,7 +324,7 @@ onMounted(async () => {
     <!-- Add Team Member Modal -->
     <div
       v-if="showAddModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeModals"
     >
       <div
@@ -323,6 +367,21 @@ onMounted(async () => {
             </div>
           </div>
           <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Department</label
+            >
+            <select
+              v-model="memberForm.department"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Select department</option>
+              <option v-for="dept in departments" :key="dept" :value="dept">
+                {{ dept }}
+              </option>
+            </select>
+          </div>
+          <div>
             <label class="block text-sm font-medium text-gray-700">Bio</label>
             <textarea
               v-model="memberForm.bio"
@@ -331,17 +390,18 @@ onMounted(async () => {
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Image URL</label
-            >
-            <input
-              v-model="memberForm.image"
-              type="url"
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Image</label
+              >
+              <input
+                type="file"
+                accept="image/*"
+                @change="(e) => (memberForm.image = e.target.files[0])"
+                class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Email</label
@@ -352,6 +412,8 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Phone</label
@@ -362,8 +424,6 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >LinkedIn URL</label
@@ -374,6 +434,8 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Twitter URL</label
@@ -451,6 +513,21 @@ onMounted(async () => {
             </div>
           </div>
           <div>
+            <label class="block text-sm font-medium text-gray-700"
+              >Department</label
+            >
+            <select
+              v-model="memberForm.department"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Select department</option>
+              <option v-for="dept in departments" :key="dept" :value="dept">
+                {{ dept }}
+              </option>
+            </select>
+          </div>
+          <div>
             <label class="block text-sm font-medium text-gray-700">Bio</label>
             <textarea
               v-model="memberForm.bio"
@@ -459,17 +536,18 @@ onMounted(async () => {
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
           </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700"
-              >Image URL</label
-            >
-            <input
-              v-model="memberForm.image"
-              type="url"
-              class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Image</label
+              >
+              <input
+                type="file"
+                accept="image/*"
+                @change="(e) => (memberForm.image = e.target.files[0])"
+                class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Email</label
@@ -480,6 +558,8 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Phone</label
@@ -490,8 +570,6 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >LinkedIn URL</label
@@ -502,6 +580,8 @@ onMounted(async () => {
                 class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700"
                 >Twitter URL</label

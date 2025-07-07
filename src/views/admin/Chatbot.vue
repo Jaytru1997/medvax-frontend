@@ -124,7 +124,6 @@ onMounted(() => {
             >
               ← Back to Dashboard
             </button>
-            <h1 class="text-2xl font-bold text-gray-900">Chatbot Training</h1>
           </div>
         </div>
       </div>
