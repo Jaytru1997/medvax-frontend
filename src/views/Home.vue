@@ -103,7 +103,14 @@ onMounted(async () => {
       <img
         src="../../public/asset/images/home-header-alt.svg"
         alt="Healthcare personnel with drug bottles in her hands"
-        class="w-full h-auto max-w-full flex self-start"
+        class="sm:hidden w-full h-auto max-w-full flex self-start"
+      />
+
+      <!-- Mobile Phone Desktop -->
+      <img
+        src="../../public/asset/images/onboarding-dual.svg"
+        alt="Healthcare personnel with drug bottles in her hands"
+        class="hidden sm:flex w-full h-auto max-w-full mx-auto"
       />
 
       <!-- Hero Text -->
@@ -155,6 +162,14 @@ onMounted(async () => {
           </router-link>
         </div>
       </div>
+    </div>
+
+    <div class="flex items-center justify-center my-12">
+      <img
+        src="../../public/asset/images/onboarding-dual.svg"
+        alt="Healthcare personnel with drug bottles in her hands"
+        class="sm:hidden w-full h-auto max-w-full mx-auto"
+      />
     </div>
 
     <!-- Overview Section -->
@@ -542,6 +557,7 @@ onMounted(async () => {
         </p>
       </div>
       <button
+        id="book-consultation"
         class="bg-light-blue-900 text-dark font-semibold text-xs py-2 px-4 lg:w-1/6 rounded"
         @click="openBookingModal"
       >

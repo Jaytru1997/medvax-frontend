@@ -7,16 +7,18 @@
     </main>
 
     <AppFooter />
-    <AdaAIWidget />
+    <!-- <AdaAIWidget /> -->
     <FloatingCart />
+    <FloatingChatWidget />
   </div>
 </template>
 
 <script setup>
 import AppHeader from "./components/AppHeader.vue";
 import AppFooter from "./components/AppFooter.vue";
-import AdaAIWidget from "./components/AdaAIWidget.vue";
+// import AdaAIWidget from "./components/AdaAIWidget.vue";
 import FloatingCart from "./components/FloatingCart.vue";
+import FloatingChatWidget from "./components/FloatingChatWidget.vue";
 </script>
 
 <style scoped>
