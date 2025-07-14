@@ -68,18 +68,34 @@ const readMore = (blog) => {
 };
 
 const logos = [
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
-  new URL("../../public/asset/images/partner.svg", import.meta.url).href,
+  new URL("../../public/asset/images/partners/partner.svg", import.meta.url)
+    .href,
+  new URL("../../public/asset/images/partners/hp.svg", import.meta.url).href,
+  new URL(
+    "../../public/asset/images/partners/gates_foundation.svg",
+    import.meta.url
+  ).href,
+  new URL(
+    "../../public/asset/images/partners/be_change_maker.svg",
+    import.meta.url
+  ).href,
+  new URL("../../public/asset/images/partners/rwanda.svg", import.meta.url)
+    .href,
+  new URL(
+    "../../public/asset/images/partners/world_skills.svg",
+    import.meta.url
+  ).href,
 ];
 
 // Duplicate the logos for seamless looping
-const duplicatedLogos = [...logos, ...logos, ...logos];
+const duplicatedLogos = [
+  ...logos,
+  ...logos,
+  ...logos,
+  ...logos,
+  ...logos,
+  ...logos,
+];
 
 // Fetch blogs when component mounts
 onMounted(async () => {
@@ -535,7 +551,7 @@ onMounted(async () => {
             :key="index"
             :src="logo"
             alt="Partner Logo"
-            class="h-auto w-20 sm:w-24 rounded-full object-contain shrink-0"
+            class="h-auto w-28 sm:w-30 object-contain shrink-0"
           />
         </div>
       </div>
@@ -568,7 +584,7 @@ onMounted(async () => {
     <!-- Book Consultation Modal -->
     <div
       v-if="showBookingModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeBookingModal"
     >
       <div
@@ -580,7 +596,7 @@ onMounted(async () => {
           <h2 class="text-xl font-bold">Book Consultation</h2>
           <button
             @click="closeBookingModal"
-            class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors"
+            class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
           >
             <svg
               class="w-4 h-4"

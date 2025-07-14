@@ -473,7 +473,7 @@ onMounted(async () => {
     <!-- Checkout Modal -->
     <div
       v-if="showCheckoutModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeCheckout"
     >
       <div
@@ -486,7 +486,7 @@ onMounted(async () => {
           <h2 class="text-xl font-bold">Checkout</h2>
           <button
             @click="closeCheckout"
-            class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors"
+            class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
           >
             <svg
               class="w-4 h-4"

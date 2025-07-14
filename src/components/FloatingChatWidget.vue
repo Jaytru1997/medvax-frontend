@@ -37,7 +37,7 @@
         >
           <div class="flex items-center gap-3">
             <div
-              class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
+              class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
             >
               <svg
                 class="w-4 h-4"
@@ -60,7 +60,7 @@
           </div>
           <button
             @click="closeChat"
-            class="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors"
+            class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
           >
             <svg
               class="w-3 h-3 text-pink-900"

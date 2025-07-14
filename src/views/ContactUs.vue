@@ -100,7 +100,7 @@ const submitBooking = async () => {
         >
           <!-- Dynamically set teams and implement border-1 border-bright-blue-100 for selected team -->
           <p
-            class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
+            class="flex flex-col items-center justify-center gap-2 sm:gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
               src="../../public/asset/icons/email-faded.svg"
@@ -111,7 +111,7 @@ const submitBooking = async () => {
           </p>
 
           <p
-            class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
+            class="flex flex-col items-center justify-center gap-2 sm:gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
               src="../../public/asset/icons/phone-faded.svg"
@@ -122,7 +122,7 @@ const submitBooking = async () => {
           </p>
 
           <p
-            class="flex flex-col items-center justify-center gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
+            class="flex flex-col items-center justify-center gap-2 sm:gap-4 rounded py-4 px-4 cursor-pointer border-1 border-bright-blue-900 w-3/4 lg:w-1/4 bg-dark-blue-700"
           >
             <img
               src="../../public/asset/icons/location-pin-faded.svg"
@@ -260,7 +260,7 @@ const submitBooking = async () => {
     <!-- Book Consultation Modal -->
     <div
       v-if="showBookingModal"
-      class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       @click.self="closeBookingModal"
     >
       <div
@@ -272,7 +272,7 @@ const submitBooking = async () => {
           <h2 class="text-xl font-bold">Book Consultation</h2>
           <button
             @click="closeBookingModal"
-            class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors"
+            class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
           >
             <svg
               class="w-4 h-4"
