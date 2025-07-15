@@ -9,6 +9,8 @@ const router = useRouter();
 const blogStore = useBlogStore();
 const bookingStore = useBookingStore();
 
+// window.location.href = 'https://wa.me/+2349129738935'
+
 // Reactive state
 const isLoading = ref(true);
 
@@ -64,7 +66,7 @@ const recentBlogs = computed(() => {
 
 // Methods
 const readMore = (blog) => {
-  router.push(`/blog/${blog.id}`);
+  router.push(`/blog/${blog._id || blog.id}`);
 };
 
 const logos = [
@@ -157,12 +159,15 @@ onMounted(async () => {
         <div
           class="flex flex-wrap sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-start w-full *:no-underline"
         >
-          <router-link
-            to="#"
+          <a
+            href="#"
+            target="_blank"
+            @click="window.location.href = 'https://wa.me/+2349129738935'"
             class="bg-pink-300 shadow text-dark text-center text-xs sm:text-sm px-3 sm:px-4 lg:px-4 py-2 sm:py-2 lg:py-4 rounded-lg hover:bg-bright-blue-900 hover:text-white transition-colors"
           >
+            <!-- @click="openBookingModal" -->
             Book a Consultation
-          </router-link>
+          </a>
           <a
             href="https://play.google.com/store/apps/details?id=com.medvax.medtracka"
             target="_blank"
@@ -489,7 +494,7 @@ onMounted(async () => {
       >
         <div
           v-for="blog in recentBlogs"
-          :key="blog.id"
+          :key="blog._id || blog.id"
           class="flex flex-col rounded gap-3 p-4 items-center bg-light-blue-100 border-1 border-bright-blue-300 hover:shadow-md transition-shadow"
         >
           <img
@@ -575,8 +580,9 @@ onMounted(async () => {
       <button
         id="book-consultation"
         class="bg-light-blue-900 text-dark font-semibold text-xs py-2 px-4 lg:w-1/6 rounded"
-        @click="openBookingModal"
+        @click="window.location.href = 'https://wa.me/+2349129738935'"
       >
+        <!-- @click="openBookingModal" -->
         Book Consultation
       </button>
     </div>

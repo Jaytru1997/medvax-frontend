@@ -251,8 +251,9 @@ const submitBooking = async () => {
       </div>
       <button
         class="bg-light-blue-900 text-dark font-semibold text-xs py-2 px-4 lg:w-1/6 rounded"
-        @click="openBookingModal"
+        @click="window.location.href = 'https://wa.me/+2349129738935'"
       >
+        <!-- @click="openBookingModal" -->
         Book Consultation
       </button>
     </div>
