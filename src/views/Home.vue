@@ -73,9 +73,9 @@ const readMore = (blog) => {
   router.push(`/blog/${blog._id || blog.id}`);
 };
 
+// new URL("../../public/asset/images/partners/partner.svg", import.meta.url)
+//   .href,
 const logos = [
-  new URL("../../public/asset/images/partners/partner.svg", import.meta.url)
-    .href,
   new URL("../../public/asset/images/partners/hp.svg", import.meta.url).href,
   new URL(
     "../../public/asset/images/partners/gates_foundation.svg",
