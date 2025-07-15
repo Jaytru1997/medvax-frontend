@@ -1,5 +1,6 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import axios from "axios";
+import { useAuthStore } from "./authStore";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -98,15 +99,20 @@ export const useProductStore = defineStore("product", {
         this.isLoading = true;
         this.error = null;
 
+        // Get token from authStore if not provided
+        if (!token) {
+          const authStore = useAuthStore();
+          token = authStore.token;
+        }
+
+        const headers = {};
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+        // Do NOT set Content-Type, let axios handle it for FormData
+
         const response = await axios.post(
           `${API_URL}/api/medications`,
           productData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+          { headers }
         );
 
         // Add the new product to the state
@@ -128,15 +134,20 @@ export const useProductStore = defineStore("product", {
         this.isLoading = true;
         this.error = null;
 
+        // Get token from authStore if not provided
+        if (!token) {
+          const authStore = useAuthStore();
+          token = authStore.token;
+        }
+
+        const headers = {};
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+        // Do NOT set Content-Type, let axios handle it for FormData
+
         const response = await axios.put(
           `${API_URL}/api/medications/${id}`,
           productData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+          { headers }
         );
 
         // Update the product in the state

@@ -23,6 +23,7 @@ const productForm = ref({
   image: "",
   stock: "",
   prescription: false,
+  imageFile: null, // Add imageFile for file input
 });
 
 const categories = [
@@ -36,6 +37,8 @@ const categories = [
   "Other",
 ];
 
+const imagePreview = ref(null);
+
 const resetForm = () => {
   productForm.value = {
     name: "",
@@ -45,7 +48,9 @@ const resetForm = () => {
     image: "",
     stock: "",
     prescription: false,
+    imageFile: null,
   };
+  imagePreview.value = null;
 };
 
 const openAddModal = () => {
@@ -80,9 +85,33 @@ const closeModals = () => {
   resetForm();
 };
 
+const handleImageChange = (event) => {
+  const file = event.target.files[0];
+  productForm.value.imageFile = file;
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.value = null;
+  }
+};
+
 const handleAddProduct = async () => {
   try {
-    await productStore.addProduct(productForm.value);
+    const formData = new FormData();
+    formData.append("name", productForm.value.name);
+    formData.append("description", productForm.value.description);
+    formData.append("price", productForm.value.price);
+    formData.append("category", productForm.value.category);
+    formData.append("stock", productForm.value.stock);
+    formData.append("prescription", productForm.value.prescription);
+    if (productForm.value.imageFile) {
+      formData.append("image", productForm.value.imageFile);
+    }
+    await productStore.addProduct(formData);
     closeModals();
   } catch (error) {
     console.error("Error adding product:", error);
@@ -91,10 +120,19 @@ const handleAddProduct = async () => {
 
 const handleEditProduct = async () => {
   try {
-    await productStore.updateProduct(
-      selectedProduct.value.id,
-      productForm.value
-    );
+    const formData = new FormData();
+    formData.append("name", productForm.value.name);
+    formData.append("description", productForm.value.description);
+    formData.append("price", productForm.value.price);
+    formData.append("category", productForm.value.category);
+    formData.append("stock", productForm.value.stock);
+    formData.append("prescription", productForm.value.prescription);
+    if (productForm.value.imageFile) {
+      formData.append("image", productForm.value.imageFile);
+    } else if (productForm.value.image) {
+      formData.append("image", productForm.value.image);
+    }
+    await productStore.updateProduct(selectedProduct.value._id, formData);
     closeModals();
   } catch (error) {
     console.error("Error updating product:", error);
@@ -103,7 +141,7 @@ const handleEditProduct = async () => {
 
 const handleDeleteProduct = async () => {
   try {
-    await productStore.deleteProduct(selectedProduct.value.id);
+    await productStore.deleteProduct(selectedProduct.value._id);
     closeModals();
   } catch (error) {
     console.error("Error deleting product:", error);
@@ -355,13 +393,17 @@ onMounted(async () => {
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700"
-              >Image URL</label
+              >Product Image</label
             >
             <input
-              v-model="productForm.image"
-              type="url"
+              type="file"
+              accept="image/*"
+              @change="handleImageChange"
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
+            <div v-if="imagePreview" class="mt-2">
+              <img :src="imagePreview" alt="Preview" class="h-20 rounded" />
+            </div>
           </div>
           <div class="flex items-center">
             <input
@@ -469,13 +511,21 @@ onMounted(async () => {
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700"
-              >Image URL</label
+              >Product Image</label
             >
             <input
-              v-model="productForm.image"
-              type="url"
+              type="file"
+              accept="image/*"
+              @change="handleImageChange"
               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
+            <div v-if="imagePreview || productForm.image" class="mt-2">
+              <img
+                :src="imagePreview || productForm.image"
+                alt="Preview"
+                class="h-20 rounded"
+              />
+            </div>
           </div>
           <div class="flex items-center">
             <input

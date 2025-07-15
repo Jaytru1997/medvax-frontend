@@ -78,10 +78,18 @@ const loadDashboardData = async () => {
 
     // Update stats
     stats.value = {
-      totalProducts: productStore.getProducts.length,
-      totalBookings: bookingStore.getBookings.length,
-      totalTeamMembers: teamStore.getTeamMembers.length,
-      totalBlogPosts: blogStore.getBlogs.length,
+      totalProducts: Array.isArray(productStore.getProducts)
+        ? productStore.getProducts.length
+        : 0,
+      totalBookings: Array.isArray(bookingStore.getBookings)
+        ? bookingStore.getBookings.length
+        : 0,
+      totalTeamMembers: Array.isArray(teamStore.getTeamMembers)
+        ? teamStore.getTeamMembers.length
+        : 0,
+      totalBlogPosts: Array.isArray(blogStore.getBlogs)
+        ? blogStore.getBlogs.length
+        : 0,
     };
   } catch (error) {
     console.error("Error loading dashboard data:", error);
