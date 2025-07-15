@@ -23,6 +23,7 @@
         src="../../public/asset/logo/logo-nav.svg"
         alt="MedVax logo"
         class="w-24 sm:w-40"
+        @click="router.push('/')"
       />
 
       <!-- Desktop Navigation -->
@@ -127,6 +128,7 @@
 </template>
 
 <script setup>
+import router from "@/router";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
