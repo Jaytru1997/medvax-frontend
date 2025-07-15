@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/store/authStore";
+import Checkout from "@/views/Checkout.vue";
 
 const routes = [
   { path: "/", name: "Home", component: () => import("../views/Home.vue") },
@@ -101,6 +102,7 @@ const routes = [
     component: () => import("../views/manager/Analytics.vue"),
     meta: { requiresAuth: true, requiresManager: true },
   },
+  { path: "/checkout", name: "Checkout", component: Checkout },
 ];
 
 const router = createRouter({

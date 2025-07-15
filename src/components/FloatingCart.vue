@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useCartStore } from "@/store/cartStore";
+import { useRouter } from "vue-router";
 
 // Initialize cart store
 const cartStore = useCartStore();
+const router = useRouter();
 
 // Local state for cart visibility
 const isCartOpen = ref(false);
@@ -37,6 +39,11 @@ const updateQuantity = (productId, newQuantity) => {
       item.quantity = newQuantity;
     }
   }
+};
+
+const goToCheckout = () => {
+  isCartOpen.value = false;
+  router.push("/checkout");
 };
 </script>
 
@@ -169,6 +176,7 @@ const updateQuantity = (productId, newQuantity) => {
 
         <button
           class="w-full bg-light-blue-900 text-white py-2 px-4 rounded-lg hover:bg-light-blue-800 transition-colors duration-200 font-medium"
+          @click="goToCheckout"
         >
           Checkout
         </button>
