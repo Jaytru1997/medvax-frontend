@@ -277,7 +277,7 @@ onMounted(async () => {
           <img
             :src="member.image"
             alt="Team Member Image"
-            class="w-full h-auto rounded-lg -mb-14"
+            class="w-full h-80 rounded-lg -mb-14 object-cover"
           />
           <div
             class="flex flex-col items-start px-4 py-6 bg-pink-100 rounded-tr-lg w-3/4"

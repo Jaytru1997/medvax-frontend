@@ -272,7 +272,9 @@ onMounted(async () => {
               {{ blog.excerpt }}
             </p>
             <div class="flex items-center justify-between">
-              <span class="text-xs text-gray-500"> By {{ blog.author }} </span>
+              <span class="text-xs text-gray-500">
+                By {{ blog.author.name }}
+              </span>
               <div class="flex space-x-2">
                 <button
                   @click="openEditModal(blog)"

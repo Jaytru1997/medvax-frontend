@@ -180,52 +180,22 @@ onMounted(async () => {
         </div>
 
         <!-- Rich Text Content -->
-        <div class="blog-content">
-          <!-- This is where rich text content would be rendered -->
-          <!-- For now, we'll display the content as paragraphs -->
-          <div v-if="blog.content" class="space-y-6">
-            <p class="text-lg leading-relaxed text-gray-800">
+        <div v-if="blog.content" class="space-y-6">
+          <!-- <p class="text-lg leading-relaxed text-gray-800">
               {{ blog.content }}
+            </p> -->
+          <div class="blog-content" v-html="blog.content"></div>
+
+          <!-- Additional content sections -->
+          <blockquote
+            class="border-l-4 border-light-blue-500 pl-6 py-4 bg-light-blue-50 rounded-r-lg"
+          >
+            <p class="text-lg italic text-gray-700">
+              "Healthcare is a fundamental right, not a privilege. At MedVax
+              Health, we're committed to making quality healthcare accessible to
+              everyone."
             </p>
-
-            <!-- Additional content sections -->
-            <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">
-              Understanding the Impact
-            </h2>
-            <p class="text-lg leading-relaxed text-gray-800">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-
-            <h3 class="text-xl font-semibold text-gray-900 mt-6 mb-3">
-              Key Takeaways
-            </h3>
-            <ul class="list-disc list-inside space-y-2 text-lg text-gray-800">
-              <li>Innovation in healthcare technology</li>
-              <li>Improved access to medications</li>
-              <li>Better patient outcomes</li>
-              <li>Enhanced community health</li>
-            </ul>
-
-            <blockquote
-              class="border-l-4 border-light-blue-500 pl-6 py-4 bg-light-blue-50 rounded-r-lg"
-            >
-              <p class="text-lg italic text-gray-700">
-                "Healthcare is a fundamental right, not a privilege. At MedVax
-                Health, we're committed to making quality healthcare accessible
-                to everyone."
-              </p>
-            </blockquote>
-
-            <p class="text-lg leading-relaxed text-gray-800">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit
-              anim id est laborum.
-            </p>
-          </div>
+          </blockquote>
         </div>
       </div>
 
