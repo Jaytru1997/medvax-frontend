@@ -4,7 +4,7 @@ export const useSettingStore = defineStore("setting", {
   state: () => ({
     // set global variables for frontend
     siteName: "Medvax Health",
-    siteAddress: "Benin City, Nigeria",
+    siteAddress: "FCT, Abuja, Nigeria",
     sitePhone: "+234 912 973 8935",
     siteEmail: "info@medvaxhealth.com",
     siteCurrency: "NGN",
