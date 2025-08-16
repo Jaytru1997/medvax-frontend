@@ -75,11 +75,14 @@ import PageHeader from "@/components/PageHeader.vue";
             alt="MedVax Labs"
           />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
-            MedVax Labs
+            Safe Help by Medtracka
           </h3>
           <p class="text-sm text-left">
-            Researching African indigenous plants for innovative pharmaceutical
-            & reproductive health solutions.
+            Safe Help is a women-focused mental health support feature designed
+            to address mental health issues linked to women’s SRH journeys, from
+            postpartum depression, anxiety due to fertility struggles, and the
+            trauma of sexual abuse, to the stigma surrounding sexual health
+            conditions.
           </p>
         </div>
       </div>
