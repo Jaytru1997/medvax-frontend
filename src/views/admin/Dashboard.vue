@@ -6,6 +6,7 @@ import { useTeamStore } from "@/store/teamStore";
 import { useProductStore } from "@/store/productStore";
 import { useBlogStore } from "@/store/blogStore";
 import { useBookingStore } from "@/store/bookingStore";
+import { useScreeningStore } from "@/store/screeningStore";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -13,6 +14,7 @@ const teamStore = useTeamStore();
 const productStore = useProductStore();
 const blogStore = useBlogStore();
 const bookingStore = useBookingStore();
+const screeningStore = useScreeningStore();
 
 // Dashboard stats
 const stats = ref({
@@ -59,6 +61,13 @@ const navItems = [
     route: "/admin/blog",
     color: "bg-pink-500",
   },
+  {
+    title: "Screenings",
+    description: "Manage screening processes and schedules",
+    icon: "🩺",
+    route: "/admin/screening",
+    color: "bg-gray-500",
+  },
 ];
 
 const handleLogout = async () => {
@@ -73,24 +82,20 @@ const loadDashboardData = async () => {
       teamStore.fetchTeamMembers(),
       productStore.fetchProducts(),
       blogStore.fetchBlogs(),
-      bookingStore.fetchBookings(),
+      screeningStore.fetchScreeningData(),
     ]);
+    // bookingStore.fetchBookings(),
 
     // Update stats
-    stats.value = {
-      totalProducts: Array.isArray(productStore.getProducts)
-        ? productStore.getProducts.length
-        : 0,
-      totalBookings: Array.isArray(bookingStore.getBookings)
-        ? bookingStore.getBookings.length
-        : 0,
-      totalTeamMembers: Array.isArray(teamStore.getTeamMembers)
-        ? teamStore.getTeamMembers.length
-        : 0,
-      totalBlogPosts: Array.isArray(blogStore.getBlogs)
-        ? blogStore.getBlogs.length
-        : 0,
-    };
+    // stats.value = {
+    //   totalProducts: productStore ? productStore.getProducts.length : 0,
+    //   totalBookings: bookingStore ? bookingStore.getBookings.length : 0,
+    //   totalTeamMembers: teamStore ? teamStore.getTeamMembers.length : 0,
+    //   totalBlogPosts: blogStore ? blogStore.getBlogs.length : 0,
+    //   totalScreenings: screeningStore
+    //     ? screeningStore.getScreeningData.length
+    //     : 0,
+    // };
   } catch (error) {
     console.error("Error loading dashboard data:", error);
   }
@@ -149,7 +154,7 @@ onMounted(async () => {
                     Total Products
                   </dt>
                   <dd class="text-lg font-medium text-gray-900">
-                    {{ stats.totalProducts }}
+                    {{ productStore.getProducts.length || 0 }}
                   </dd>
                 </dl>
               </div>
@@ -162,18 +167,18 @@ onMounted(async () => {
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div
-                  class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center"
+                  class="w-8 h-8 bg-gray-500 rounded-md flex items-center justify-center"
                 >
-                  <span class="text-white text-lg">📅</span>
+                  <span class="text-white text-lg">🩺</span>
                 </div>
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
                   <dt class="text-sm font-medium text-gray-500 truncate">
-                    Total Bookings
+                    Screening Requests
                   </dt>
                   <dd class="text-lg font-medium text-gray-900">
-                    {{ stats.totalBookings }}
+                    {{ screeningStore?.getUnscheduledScreenings.length || 0 }}
                   </dd>
                 </dl>
               </div>
@@ -197,7 +202,7 @@ onMounted(async () => {
                     Team Members
                   </dt>
                   <dd class="text-lg font-medium text-gray-900">
-                    {{ stats.totalTeamMembers }}
+                    {{ teamStore?.getTeamMembers.length || 0 }}
                   </dd>
                 </dl>
               </div>
@@ -221,7 +226,7 @@ onMounted(async () => {
                     Blog Posts
                   </dt>
                   <dd class="text-lg font-medium text-gray-900">
-                    {{ stats.totalBlogPosts }}
+                    {{ blogStore?.getBlogs.length || 0 }}
                   </dd>
                 </dl>
               </div>

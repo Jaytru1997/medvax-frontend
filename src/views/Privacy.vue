@@ -161,7 +161,7 @@ import PageHeader from "@/components/PageHeader.vue";
           </li>
           If you encounter any difficulties with this process or need
           assistance, you can contact our support team via email:
-          support@medvax.com.
+          support@medvaxhealth.com.
         </ul>
         <h4 class="text-lg font-semibold mt-6 mb-2">
           Third party access to data

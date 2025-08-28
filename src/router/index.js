@@ -31,6 +31,11 @@ const routes = [
     component: () => import("../views/ContactUs.vue"),
   },
   {
+    path: "/screening",
+    name: "Screening",
+    component: () => import("../views/Screening.vue"),
+  },
+  {
     path: "/privacy",
     name: "Privacy",
     component: () => import("../views/Privacy.vue"),
@@ -81,6 +86,18 @@ const routes = [
     path: "/admin/blog",
     name: "AdminBlog",
     component: () => import("../views/admin/Blog.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "/admin/screening",
+    name: "AdminScreening",
+    component: () => import("../views/admin/Screening.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "/admin/screening/:id",
+    name: "AdminScreeningDetails",
+    component: () => import("../views/admin/ScreeningDetails.vue"),
     meta: { requiresAuth: true, requiresAdmin: true },
   },
   // Manager routes

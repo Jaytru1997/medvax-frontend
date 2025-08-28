@@ -184,6 +184,12 @@ onMounted(async () => {
           >
             Visit Our E-Pharmacy
           </router-link>
+          <router-link
+            to="/screening"
+            class="bg-pink-300 shadow text-dark text-center text-xs sm:text-sm px-3 sm:px-4 lg:px-4 py-2 sm:py-2 lg:py-4 rounded-lg hover:bg-bright-blue-900 hover:text-white transition-colors"
+          >
+            Book Screening
+          </router-link>
         </div>
       </div>
     </div>
