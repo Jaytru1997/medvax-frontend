@@ -169,11 +169,11 @@ onMounted(async () => {
           <a
             href="#"
             target="_blank"
-            @click="whatsapp()"
+            @click="calendly()"
             class="bg-pink-300 shadow text-dark text-center text-xs sm:text-sm px-3 sm:px-4 lg:px-4 py-2 sm:py-2 lg:py-4 rounded-lg hover:bg-bright-blue-900 hover:text-white transition-colors"
           >
             <!-- @click="openBookingModal" -->
-            Book a Consultation
+            Book a Consultation with our Pharmacist
           </a>
           <a
             href="https://play.google.com/store/apps/details?id=com.medvax.medtracka"
