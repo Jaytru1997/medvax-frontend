@@ -18,6 +18,10 @@ const whatsapp = () => {
   window.location.href = "https://wa.me/+2349129738935";
 };
 
+const calendly = () => {
+  window.location.href = "https://calendly.com/uzomachioma319/30min";
+};
+
 // Book Consultation Modal State
 const showBookingModal = ref(false);
 const bookingForm = ref({
@@ -592,7 +596,7 @@ onMounted(async () => {
       <button
         id="book-consultation"
         class="bg-light-blue-900 text-dark font-semibold text-xs py-2 px-4 lg:w-1/6 rounded"
-        @click="whatsapp()"
+        @click="calendly()"
       >
         <!-- @click="openBookingModal" -->
         Book Consultation
