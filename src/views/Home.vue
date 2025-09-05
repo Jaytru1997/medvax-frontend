@@ -599,7 +599,7 @@ onMounted(async () => {
         @click="calendly()"
       >
         <!-- @click="openBookingModal" -->
-        Book Consultation
+        Book a Consultation with our Pharmacist
       </button>
     </div>
 
