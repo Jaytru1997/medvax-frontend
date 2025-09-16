@@ -71,8 +71,9 @@ import PageHeader from "@/components/PageHeader.vue";
           class="flex flex-col p-4 sm:p-8 items-center justify-center bg-light-blue-100 rounded gap-4"
         >
           <img
-            src="../../public/asset/images/medvax-lab.svg"
+            src="../../public/asset/images/crying-woman.jpeg"
             alt="MedVax Labs"
+            class="rounded-lg"
           />
           <h3 class="text-lg font-semibold text-dark-blue-900 w-full">
             Safe Help by Medtracka
