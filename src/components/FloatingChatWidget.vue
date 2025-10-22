@@ -114,7 +114,8 @@ import { ref } from "vue";
 // State
 const isOpen = ref(false);
 const isLoading = ref(false);
-const chatUrl = "https://adaai.virtualstylist.buzz/";
+// const chatUrl = "https://adaai.virtualstylist.buzz/";
+const chatUrl = "https://ada.medvaxhealth.com";
 
 // Methods
 const toggleChat = () => {
