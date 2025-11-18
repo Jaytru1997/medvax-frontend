@@ -175,7 +175,7 @@ onMounted(async () => {
         <div
           class="flex flex-col items-start justify-center bg-light-blue-100 p-4 rounded gap-2"
         >
-          <p class="text-2xl font-bold text-pink-900">4,500+</p>
+          <p class="text-2xl font-bold text-pink-900">2,500+</p>
           <h3 class="text-lg font-normal text-dark">
             Products <br />
             Delivered

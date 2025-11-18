@@ -10,6 +10,7 @@
     <!-- <AdaAIWidget /> -->
     <FloatingCart />
     <FloatingChatWidget />
+    <FloatingWhatsappWidget />
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import AppFooter from "./components/AppFooter.vue";
 // import AdaAIWidget from "./components/AdaAIWidget.vue";
 import FloatingCart from "./components/FloatingCart.vue";
 import FloatingChatWidget from "./components/FloatingChatWidget.vue";
+import FloatingWhatsappWidget from "./components/FloatingWhatsappWidget.vue";
 </script>
 
 <style scoped>
